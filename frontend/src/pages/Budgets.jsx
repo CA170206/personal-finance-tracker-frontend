@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Plus,
   AlertTriangle,
@@ -35,8 +35,14 @@ export const Budgets = () => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [budgetToDelete, setBudgetToDelete] = useState(null);
   const [overallModalOpen, setOverallModalOpen] = useState(false);
-  const [newOverallLimit, setNewOverallLimit] = useState(overallBudget.toString());
+  const [newOverallLimit, setNewOverallLimit] = useState(overallBudget ? overallBudget.toString() : '50000');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (overallBudget !== undefined && overallBudget !== null) {
+      setNewOverallLimit(overallBudget.toString());
+    }
+  }, [overallBudget]);
 
   // Compute spent amount per category based on chosen period
   const categorySpentMap = useMemo(() => {

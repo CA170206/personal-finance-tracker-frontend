@@ -19,7 +19,16 @@ export const AuthProvider = ({ children }) => {
         if (storedToken) {
           setToken(storedToken);
           const currentUser = await authService.getCurrentUser();
-          setUser(currentUser || getStoredUser());
+          if (currentUser && currentUser.id) {
+            setUser(currentUser);
+          } else if (isMockMode()) {
+            setUser(getStoredUser());
+          } else {
+            localStorage.removeItem('fintrack_token');
+            localStorage.removeItem('fintrack_user');
+            setUser(null);
+            setToken(null);
+          }
         } else {
           setUser(null);
           setToken(null);
@@ -27,6 +36,7 @@ export const AuthProvider = ({ children }) => {
       } catch (err) {
         console.error('Failed to restore auth session:', err);
         localStorage.removeItem('fintrack_token');
+        localStorage.removeItem('fintrack_user');
         setUser(null);
         setToken(null);
       } finally {

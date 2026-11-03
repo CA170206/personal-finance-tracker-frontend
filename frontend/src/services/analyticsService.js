@@ -10,8 +10,15 @@ export const analyticsService = {
       return calculateAnalyticsData(allTransactions, range);
     }
 
-    const response = await api.get('/analytics', { params: { range } });
-    return response.data;
+    try {
+      const response = await api.get('/analytics', { params: { range } });
+      return response.data;
+    } catch (_err) {
+      // Fallback: compute dynamically from user's live transactions
+      const txResponse = await api.get('/transactions');
+      const txList = txResponse.data?.data || (Array.isArray(txResponse.data) ? txResponse.data : []);
+      return calculateAnalyticsData(txList, range);
+    }
   },
 };
 

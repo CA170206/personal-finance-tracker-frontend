@@ -30,6 +30,16 @@ export const FinanceProvider = ({ children }) => {
   const toast = useToast();
 
   const refreshAll = useCallback(async () => {
+    if (!user) {
+      setTransactions([]);
+      setBudgets([]);
+      setOverallBudget(50000);
+      setSummary({ totalBalance: 0, totalIncome: 0, totalExpenses: 0, savingsRate: 0, trends: null });
+      setCharts({ monthlyOverview: [], expenseBreakdown: [], totalExpenses: 0, spendingTrends: [], hasData: false });
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
       const [txResult, bgResult, ovBudget, sumResult, chResult] = await Promise.all([
@@ -40,22 +50,28 @@ export const FinanceProvider = ({ children }) => {
         dashboardService.getCharts(),
       ]);
 
-      setTransactions(txResult.data || txResult);
-      setBudgets(bgResult);
-      setOverallBudget(ovBudget);
-      setSummary(sumResult);
-      setCharts(chResult);
+      const txList = txResult?.data || (Array.isArray(txResult) ? txResult : []);
+      const bgList = Array.isArray(bgResult) ? bgResult : [];
+      const ovAmt = typeof ovBudget === 'number' ? ovBudget : (ovBudget?.amount !== undefined ? Number(ovBudget.amount) : 50000);
+
+      setTransactions(txList);
+      setBudgets(bgList);
+      setOverallBudget(ovAmt);
+      setSummary(sumResult || { totalBalance: 0, totalIncome: 0, totalExpenses: 0, savingsRate: 0, trends: null });
+      setCharts(chResult || { monthlyOverview: [], expenseBreakdown: [], totalExpenses: 0, spendingTrends: [], hasData: false });
     } catch (err) {
       console.error('Failed to load financial data:', err);
-      toast.error('Failed to synchronize financial data');
+      if (user) {
+        toast.error('Failed to synchronize financial data');
+      }
     } finally {
       setLoading(false);
     }
-  }, [toast]);
+  }, [user, toast]);
 
   useEffect(() => {
     refreshAll();
-  }, [user?.email, refreshAll]);
+  }, [user?.id, user?.email, refreshAll]);
 
   // Transaction CRUD handlers
   const addTransaction = async (data) => {

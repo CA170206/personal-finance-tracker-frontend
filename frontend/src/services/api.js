@@ -30,7 +30,11 @@ api.interceptors.response.use(
       // Clear token and redirect to login if token is expired or invalid
       localStorage.removeItem('fintrack_token');
       localStorage.removeItem('fintrack_user');
-      if (window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+      if (
+        window.location.pathname !== '/' &&
+        window.location.pathname !== '/login' &&
+        window.location.pathname !== '/register'
+      ) {
         window.location.href = '/login';
       }
     }
@@ -44,7 +48,7 @@ export const isMockMode = () => {
   if (storedMock !== null) {
     return storedMock === 'true';
   }
-  return envMock === 'true' || envMock === undefined;
+  return envMock === 'true';
 };
 
 export const setMockMode = (enabled) => {

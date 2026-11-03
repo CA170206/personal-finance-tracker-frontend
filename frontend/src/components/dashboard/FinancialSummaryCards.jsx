@@ -45,7 +45,7 @@ export const FinancialSummaryCards = () => {
       />
       <StatCard
         title="Savings Rate"
-        amount={savingsRate.toFixed(1)}
+        amount={Number(savingsRate || 0).toFixed(1)}
         isCurrency={false}
         icon={PiggyBank}
         trend={safeTrends.savingsRateChange}

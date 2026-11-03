@@ -21,7 +21,7 @@ export const budgetService = {
       return getStoredOverallBudget();
     }
     const response = await api.get('/budgets/overall');
-    return response.data.amount;
+    return response.data?.amount !== undefined ? Number(response.data.amount) : 50000;
   },
 
   async updateOverallBudget(amount) {
@@ -31,7 +31,7 @@ export const budgetService = {
       return Number(amount);
     }
     const response = await api.put('/budgets/overall', { amount: Number(amount) });
-    return response.data;
+    return response.data?.amount !== undefined ? Number(response.data.amount) : Number(amount);
   },
 
   async createBudget(budgetData) {

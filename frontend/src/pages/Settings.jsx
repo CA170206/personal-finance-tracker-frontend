@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   User,
@@ -21,12 +21,23 @@ export const Settings = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    name: user?.name || 'Chaitanya Anmulwar',
-    email: user?.email || 'chaitanya@example.com',
+    name: user?.name || '',
+    email: user?.email || '',
     currency: user?.currency || 'INR',
     theme: theme || 'dark',
-    monthlySalary: user?.monthlySalary || 45000,
   });
+
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: user.name || '',
+        email: user.email || '',
+        currency: user.currency || 'INR',
+        theme: user.theme || theme || 'dark',
+      }));
+    }
+  }, [user, theme]);
 
   const [isSaving, setIsSaving] = useState(false);
   const [resetModalOpen, setResetModalOpen] = useState(false);
