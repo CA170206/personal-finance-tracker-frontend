@@ -14,11 +14,12 @@
       (function() {
         try {
           var theme = localStorage.getItem('fintrack_theme');
-          var supportDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          if (theme === 'dark' || (!theme && supportDark) || !theme) {
+          if (theme === 'dark') {
             document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
           } else {
             document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
           }
         } catch (e) {}
       })();

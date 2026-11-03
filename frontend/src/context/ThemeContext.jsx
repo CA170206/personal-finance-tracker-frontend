@@ -9,11 +9,8 @@ export const ThemeProvider = ({ children }) => {
     if (saved === 'dark' || saved === 'light') {
       return saved;
     }
-    // 2. Check system preference
-    if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      return 'light';
-    }
-    return 'dark'; // default dark fintech
+    // 2. Default to light mode
+    return 'light';
   });
 
   useEffect(() => {

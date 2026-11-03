@@ -19,9 +19,9 @@ export default {
           text: 'var(--text-primary)',
           muted: 'var(--text-muted)',
           subtle: 'var(--text-subtle)',
-          emerald: '#000000',
-          emeraldHover: '#18181B',
-          emeraldMuted: 'rgba(0, 0, 0, 0.08)',
+          emerald: '#10B981',
+          emeraldHover: '#059669',
+          emeraldMuted: 'rgba(16, 185, 129, 0.12)',
           blue: '#3B82F6',
           blueHover: '#2563EB',
           blueMuted: 'rgba(59, 130, 246, 0.12)',
@@ -40,7 +40,7 @@ export default {
       boxShadow: {
         'card': 'var(--card-shadow)',
         'elevated': 'var(--card-shadow-elevated)',
-        'glow-emerald': '0 2px 10px -2px rgba(0, 0, 0, 0.3)',
+        'glow-emerald': '0 0 25px -5px rgba(16, 185, 129, 0.25)',
         'glow-blue': '0 0 25px -5px rgba(59, 130, 246, 0.25)',
       },
       borderRadius: {
