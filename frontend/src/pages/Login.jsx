@@ -72,13 +72,13 @@ export const Login = () => {
   return (
     <div className="min-h-screen bg-brand-bg flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden transition-colors duration-200">
       {/* Background Glow Orbs */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-brand-emerald/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-black/10 dark:bg-white/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-brand-blue/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
         {/* Brand Header */}
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-emerald to-emerald-600 shadow-glow-emerald mb-4 hover:scale-105 transition-transform">
+          <Link to="/" className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-black dark:bg-zinc-900 border border-zinc-800 text-white shadow-sm mb-4 hover:scale-105 transition-transform">
             <Wallet className="w-7 h-7 text-white" />
           </Link>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
@@ -92,14 +92,14 @@ export const Login = () => {
         {/* Login Card */}
         <div className="bg-brand-card border border-brand-border rounded-2xl p-6 sm:p-8 shadow-elevated">
           {isMock && (
-            <div className="mb-6 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-between text-xs">
-              <span className="text-emerald-500 font-medium flex items-center gap-1.5">
+            <div className="mb-6 p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-brand-border flex items-center justify-between text-xs">
+              <span className="text-black dark:text-white font-medium flex items-center gap-1.5">
                 <Sparkles className="w-3.5 h-3.5" /> Mock Mode Ready
               </span>
               <button
                 type="button"
                 onClick={handleDemoFill}
-                className="text-[11px] font-semibold text-white bg-emerald-600 hover:bg-emerald-700 px-2.5 py-1 rounded-lg transition-colors shadow-sm"
+                className="text-[11px] font-semibold text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 px-2.5 py-1 rounded-lg transition-colors shadow-sm"
               >
                 Auto-fill Demo
               </button>
@@ -122,7 +122,7 @@ export const Login = () => {
                   className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-brand-elevated border text-brand-text text-sm placeholder-brand-subtle focus:outline-none focus:ring-2 transition-all ${
                     errors.email
                       ? 'border-rose-500 focus:ring-rose-500/30'
-                      : 'border-brand-border focus:border-brand-emerald focus:ring-brand-emerald/20'
+                      : 'border-brand-border focus:border-black focus:ring-black/20 dark:focus:border-white dark:focus:ring-white/20'
                   }`}
                 />
               </div>
@@ -138,7 +138,7 @@ export const Login = () => {
                   onClick={() =>
                     toast.info('Password reset is available in the connected backend environment.')
                   }
-                  className="text-xs text-brand-emerald hover:underline font-medium"
+                  className="text-xs text-black dark:text-white hover:underline font-medium"
                 >
                   Forgot password?
                 </button>
@@ -153,7 +153,7 @@ export const Login = () => {
                   className={`w-full pl-10 pr-10 py-2.5 rounded-xl bg-brand-elevated border text-brand-text text-sm placeholder-brand-subtle focus:outline-none focus:ring-2 transition-all ${
                     errors.password
                       ? 'border-rose-500 focus:ring-rose-500/30'
-                      : 'border-brand-border focus:border-brand-emerald focus:ring-brand-emerald/20'
+                      : 'border-brand-border focus:border-black focus:ring-black/20 dark:focus:border-white dark:focus:ring-white/20'
                   }`}
                 />
                 <button
@@ -175,7 +175,7 @@ export const Login = () => {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-4 h-4 rounded border-brand-border text-brand-emerald bg-brand-elevated focus:ring-brand-emerald cursor-pointer"
+                className="w-4 h-4 rounded border-brand-border text-black dark:text-white bg-brand-elevated focus:ring-black dark:focus:ring-white cursor-pointer"
               />
               <label htmlFor="remember" className="text-xs text-brand-muted select-none cursor-pointer">
                 Remember this device for 30 days
@@ -186,7 +186,7 @@ export const Login = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full mt-2 py-3 px-4 rounded-xl font-bold text-sm text-white bg-brand-emerald hover:bg-brand-emeraldHover active:scale-98 transition-all shadow-glow-emerald flex items-center justify-center gap-2"
+              className="w-full mt-2 py-3 px-4 rounded-xl font-bold text-sm text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 active:scale-98 transition-all shadow-sm flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -203,7 +203,7 @@ export const Login = () => {
           <div className="mt-6 pt-6 border-t border-brand-border text-center">
             <p className="text-xs text-brand-muted">
               Don't have an account yet?{' '}
-              <Link to="/register" className="text-brand-emerald hover:underline font-semibold ml-1">
+              <Link to="/register" className="text-black dark:text-white hover:underline font-semibold ml-1">
                 Create one now
               </Link>
             </p>
@@ -212,7 +212,7 @@ export const Login = () => {
 
         {/* Security Assurance Badge */}
         <div className="mt-6 flex items-center justify-center gap-2 text-xs text-brand-subtle">
-          <ShieldCheck className="w-4 h-4 text-brand-emerald" />
+          <ShieldCheck className="w-4 h-4 text-black dark:text-white" />
           <span>Bank-grade 256-bit encryption & JWT authentication</span>
         </div>
       </div>

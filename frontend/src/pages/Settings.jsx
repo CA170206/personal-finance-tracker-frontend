@@ -87,13 +87,13 @@ export const Settings = () => {
       {/* Profile Overview Card */}
       <div className="bg-brand-card border border-brand-border rounded-2xl p-6 sm:p-7 shadow-card">
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-brand-emerald via-teal-500 to-blue-500 flex items-center justify-center text-white text-3xl font-extrabold shadow-elevated flex-shrink-0">
+          <div className="w-20 h-20 rounded-2xl bg-black dark:bg-zinc-800 border border-zinc-800 flex items-center justify-center text-white text-3xl font-extrabold shadow-sm flex-shrink-0">
             {formData.name.charAt(0).toUpperCase()}
           </div>
           <div className="text-center sm:text-left flex-1 min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2">
               <h3 className="text-lg font-bold text-brand-text">{formData.name}</h3>
-              <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+              <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-black text-white dark:bg-zinc-800 dark:text-zinc-200 border border-zinc-800">
                 PRO Member
               </span>
             </div>
@@ -108,7 +108,7 @@ export const Settings = () => {
       {/* Edit Profile Information Form */}
       <div className="bg-brand-card border border-brand-border rounded-2xl p-6 sm:p-7 shadow-card">
         <h3 className="text-base font-bold text-brand-text mb-4 flex items-center gap-2">
-          <User className="w-4 h-4 text-brand-emerald" />
+          <User className="w-4 h-4 text-black dark:text-white" />
           Personal Information
         </h3>
 
@@ -120,7 +120,7 @@ export const Settings = () => {
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-brand-elevated border border-brand-border text-brand-text text-sm focus:outline-none focus:border-brand-emerald focus:ring-2 focus:ring-brand-emerald/20 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-brand-elevated border border-brand-border text-brand-text text-sm focus:outline-none focus:border-black focus:ring-2 focus:ring-black/20 dark:focus:border-white dark:focus:ring-white/20 transition-all"
                 required
               />
             </div>
@@ -131,7 +131,7 @@ export const Settings = () => {
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-brand-elevated border border-brand-border text-brand-text text-sm focus:outline-none focus:border-brand-emerald focus:ring-2 focus:ring-brand-emerald/20 transition-all"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-brand-elevated border border-brand-border text-brand-text text-sm focus:outline-none focus:border-black focus:ring-2 focus:ring-black/20 dark:focus:border-white dark:focus:ring-white/20 transition-all"
                 required
               />
             </div>
@@ -143,7 +143,7 @@ export const Settings = () => {
               <select
                 value={formData.currency}
                 onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-brand-elevated border border-brand-border text-brand-text text-sm focus:outline-none focus:border-brand-emerald cursor-pointer"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-brand-elevated border border-brand-border text-brand-text text-sm focus:outline-none focus:border-black dark:focus:border-white cursor-pointer"
               >
                 <option value="INR">INR (₹) — Indian Rupee (Default)</option>
                 <option value="USD">USD ($) — US Dollar</option>
@@ -157,7 +157,7 @@ export const Settings = () => {
               <select
                 value={theme}
                 onChange={(e) => handleThemeChange(e.target.value)}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-brand-elevated border border-brand-border text-brand-text text-sm focus:outline-none focus:border-brand-emerald cursor-pointer"
+                className="w-full px-3.5 py-2.5 rounded-xl bg-brand-elevated border border-brand-border text-brand-text text-sm focus:outline-none focus:border-black dark:focus:border-white cursor-pointer"
               >
                 <option value="dark">Dark Mode (Fintech Dashboard)</option>
                 <option value="light">Light Mode (Clean Modern)</option>
@@ -169,7 +169,7 @@ export const Settings = () => {
             <button
               type="submit"
               disabled={isSaving}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-brand-emerald hover:bg-brand-emeraldHover active:scale-95 shadow-glow-emerald transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 active:scale-95 shadow-sm transition-all"
             >
               <Save className="w-4 h-4" />
               <span>{isSaving ? 'Saving...' : 'Save Profile Changes'}</span>
@@ -216,7 +216,7 @@ export const Settings = () => {
               }}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                 isMock
-                  ? 'bg-brand-emerald text-white shadow-glow-emerald'
+                  ? 'bg-black text-white dark:bg-zinc-800 dark:text-white border border-zinc-800 shadow-sm'
                   : 'bg-brand-card text-brand-muted hover:text-brand-text border border-brand-border'
               }`}
             >

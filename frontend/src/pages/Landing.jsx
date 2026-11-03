@@ -116,7 +116,7 @@ export const Landing = () => {
   };
 
   return (
-    <div className="min-h-screen bg-brand-bg text-brand-text font-sans antialiased selection:bg-brand-emerald selection:text-white transition-colors duration-200">
+    <div className="min-h-screen bg-brand-bg text-brand-text font-sans antialiased selection:bg-black selection:text-white dark:selection:bg-white dark:selection:text-black transition-colors duration-200">
       {/* ===================================================
           1. NAVBAR
       =================================================== */}
@@ -124,13 +124,13 @@ export const Landing = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           {/* Brand Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-emerald to-emerald-600 flex items-center justify-center text-white shadow-glow-emerald group-hover:scale-105 transition-transform">
+            <div className="w-10 h-10 rounded-xl bg-black dark:bg-zinc-900 border border-zinc-800 dark:border-zinc-700 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
               <Wallet className="w-5 h-5" />
             </div>
             <div className="flex flex-col">
               <span className="font-extrabold text-xl tracking-tight text-brand-text flex items-center gap-1.5">
                 FinTrack
-                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded-full bg-black text-white dark:bg-zinc-800 dark:text-zinc-200 border border-zinc-800 dark:border-zinc-700">
                   PRO
                 </span>
               </span>
@@ -182,7 +182,7 @@ export const Landing = () => {
             {isAuthenticated ? (
               <Link
                 to="/dashboard"
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white bg-brand-emerald hover:bg-brand-emeraldHover shadow-glow-emerald transition-all active:scale-95"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white bg-black hover:bg-zinc-800 shadow-sm border border-zinc-800 transition-all active:scale-95"
               >
                 <span>Open Dashboard</span>
                 <ArrowRight className="w-4 h-4" />
@@ -197,7 +197,7 @@ export const Landing = () => {
                 </Link>
                 <Link
                   to="/register"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white bg-brand-emerald hover:bg-brand-emeraldHover shadow-glow-emerald transition-all active:scale-95"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white bg-black hover:bg-zinc-800 shadow-sm border border-zinc-800 transition-all active:scale-95"
                 >
                   <span>Get Started Free</span>
                   <ArrowRight className="w-4 h-4" />
@@ -258,7 +258,7 @@ export const Landing = () => {
               {isAuthenticated ? (
                 <Link
                   to="/dashboard"
-                  className="w-full text-center py-2.5 rounded-xl font-bold text-sm text-white bg-brand-emerald shadow-glow-emerald"
+                  className="w-full text-center py-2.5 rounded-xl font-bold text-sm text-white bg-black hover:bg-zinc-800 shadow-sm border border-zinc-800"
                 >
                   Go to Dashboard
                 </Link>
@@ -272,7 +272,7 @@ export const Landing = () => {
                   </Link>
                   <Link
                     to="/register"
-                    className="w-full text-center py-2.5 rounded-xl font-bold text-sm text-white bg-brand-emerald shadow-glow-emerald"
+                    className="w-full text-center py-2.5 rounded-xl font-bold text-sm text-white bg-black hover:bg-zinc-800 shadow-sm border border-zinc-800"
                   >
                     Get Started Free
                   </Link>
@@ -288,14 +288,14 @@ export const Landing = () => {
       =================================================== */}
       <section id="hero" className="relative pt-12 pb-20 sm:pt-20 sm:pb-28 overflow-hidden">
         {/* Subtle Decorative Background Glows */}
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-brand-emerald/10 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-black/5 dark:bg-white/5 blur-[120px] rounded-full pointer-events-none" />
         <div className="absolute top-40 right-10 w-[400px] h-[300px] bg-brand-blue/10 blur-[140px] rounded-full pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             {/* Pill Announcement */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-card border border-brand-border shadow-sm mb-6 animate-fadeIn">
-              <span className="flex h-2 w-2 rounded-full bg-brand-emerald animate-pulse" />
+              <span className="flex h-2 w-2 rounded-full bg-black dark:bg-white animate-pulse" />
               <span className="text-xs font-semibold text-brand-text">
                 FinTrack 2.0 is Live
               </span>
@@ -305,7 +305,7 @@ export const Landing = () => {
             {/* Headline */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-brand-text tracking-tight leading-[1.15] mb-6">
               Take Control of Your Money.{' '}
-              <span className="bg-gradient-to-r from-brand-emerald via-teal-400 to-brand-blue bg-clip-text text-transparent">
+              <span className="text-black dark:text-white">
                 Build a Better Financial Future.
               </span>
             </h1>
@@ -320,7 +320,7 @@ export const Landing = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 to="/register"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl font-bold text-base text-white bg-brand-emerald hover:bg-brand-emeraldHover shadow-glow-emerald active:scale-95 transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl font-bold text-base text-white bg-black hover:bg-zinc-800 shadow-sm border border-zinc-800 active:scale-95 transition-all"
               >
                 <span>Get Started Free</span>
                 <ArrowRight className="w-5 h-5" />
@@ -337,13 +337,13 @@ export const Landing = () => {
             {/* Small reassurance stats */}
             <div className="mt-10 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs text-brand-subtle">
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-brand-emerald" /> No credit card required
+                <CheckCircle2 className="w-4 h-4 text-black dark:text-white" /> No credit card required
               </span>
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-brand-emerald" /> Indian Rupee (₹) native
+                <CheckCircle2 className="w-4 h-4 text-black dark:text-white" /> Indian Rupee (₹) native
               </span>
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-brand-emerald" /> 100% private & secure
+                <CheckCircle2 className="w-4 h-4 text-black dark:text-white" /> 100% private & secure
               </span>
             </div>
           </div>
@@ -363,7 +363,7 @@ export const Landing = () => {
                     https://fintrack.app/dashboard
                   </span>
                 </div>
-                <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-500 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-black dark:text-zinc-200 bg-black/5 dark:bg-white/10 px-2.5 py-0.5 rounded-full border border-black/10 dark:border-white/10">
                   <Sparkles className="w-3 h-3" /> Product Preview • Illustrative Data
                 </div>
               </div>
@@ -480,7 +480,7 @@ export const Landing = () => {
       <section id="features" className="py-20 bg-brand-sidebar/40 border-y border-brand-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-emerald mb-2">
+            <h2 className="text-xs uppercase font-extrabold tracking-widest text-black dark:text-white mb-2">
               Comprehensive Toolkit
             </h2>
             <h3 className="text-2xl sm:text-4xl font-extrabold text-brand-text tracking-tight">
@@ -501,7 +501,7 @@ export const Landing = () => {
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-brand-elevated border border-brand-border flex items-center justify-center text-brand-emerald group-hover:scale-105 transition-transform">
+                      <div className="w-12 h-12 rounded-xl bg-brand-elevated border border-brand-border flex items-center justify-center text-black dark:text-white group-hover:scale-105 transition-transform">
                         <Icon className="w-6 h-6" />
                       </div>
                       <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full bg-brand-elevated text-brand-muted border border-brand-border">
@@ -515,7 +515,7 @@ export const Landing = () => {
                       {feature.description}
                     </p>
                   </div>
-                  <div className="pt-4 mt-4 border-t border-brand-border/40 flex items-center text-xs font-semibold text-brand-emerald">
+                  <div className="pt-4 mt-4 border-t border-brand-border/40 flex items-center text-xs font-semibold text-black dark:text-white">
                     <span>Learn more</span>
                     <ChevronRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -547,9 +547,9 @@ export const Landing = () => {
             {steps.map((step, idx) => (
               <div
                 key={idx}
-                className="bg-brand-card border border-brand-border rounded-2xl p-7 relative shadow-card hover:border-brand-emerald/40 transition-colors"
+                className="bg-brand-card border border-brand-border rounded-2xl p-7 relative shadow-card hover:border-black/40 dark:hover:border-white/40 transition-colors"
               >
-                <div className="text-3xl sm:text-4xl font-black text-brand-emerald/30 mb-4 font-mono">
+                <div className="text-3xl sm:text-4xl font-black text-black/20 dark:text-white/20 mb-4 font-mono">
                   {step.number}
                 </div>
                 <h4 className="text-lg font-bold text-brand-text mb-2">
@@ -571,7 +571,7 @@ export const Landing = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-xs uppercase font-extrabold tracking-widest text-brand-emerald mb-2">
+              <h2 className="text-xs uppercase font-extrabold tracking-widest text-black dark:text-white mb-2">
                 Why Choose FinTrack
               </h2>
               <h3 className="text-2xl sm:text-4xl font-extrabold text-brand-text tracking-tight mb-6">
@@ -585,7 +585,7 @@ export const Landing = () => {
               <div className="space-y-3.5">
                 {benefits.map((benefit, i) => (
                   <div key={i} className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="w-5 h-5 rounded-full bg-black/10 dark:bg-white/10 text-black dark:text-white flex items-center justify-center flex-shrink-0 mt-0.5">
                       <CheckCircle2 className="w-4 h-4" />
                     </div>
                     <span className="text-xs sm:text-sm font-medium text-brand-text">
@@ -598,7 +598,7 @@ export const Landing = () => {
               <div className="mt-8">
                 <Link
                   to="/register"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-white bg-brand-emerald hover:bg-brand-emeraldHover shadow-glow-emerald transition-all active:scale-95"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 shadow-sm transition-all active:scale-95"
                 >
                   <span>Start Tracking Free</span>
                   <ArrowRight className="w-4 h-4" />
@@ -610,7 +610,7 @@ export const Landing = () => {
             <div className="bg-brand-card border border-brand-border rounded-3xl p-6 sm:p-8 shadow-elevated relative overflow-hidden">
               <div className="flex items-center justify-between pb-4 mb-4 border-b border-brand-border/60">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-brand-emerald/10 text-brand-emerald flex items-center justify-center font-bold text-xs">
+                  <div className="w-8 h-8 rounded-lg bg-black/10 text-black dark:bg-white/10 dark:text-white flex items-center justify-center font-bold text-xs">
                     ₹
                   </div>
                   <div>
@@ -618,7 +618,7 @@ export const Landing = () => {
                     <p className="text-[11px] text-brand-muted">Zero seeded or fabricated fallbacks</p>
                   </div>
                 </div>
-                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-brand-elevated text-emerald-400">
+                <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-brand-elevated text-black dark:text-white font-semibold">
                   Active Sync
                 </span>
               </div>
@@ -629,7 +629,7 @@ export const Landing = () => {
                     <span className="text-brand-subtle block">Calculated Savings Target</span>
                     <span className="font-bold text-brand-text text-sm">65% Target Achieved</span>
                   </div>
-                  <span className="text-emerald-400 font-bold text-sm">+18.5% Growth</span>
+                  <span className="text-emerald-500 font-bold text-sm">+18.5% Growth</span>
                 </div>
 
                 <div className="p-3.5 rounded-xl bg-brand-elevated border border-brand-border/60 flex items-center justify-between">
@@ -657,7 +657,7 @@ export const Landing = () => {
           6. FINAL CALL TO ACTION
       =================================================== */}
       <section className="py-20 sm:py-28 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-brand-emerald/5 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 dark:via-white/5 to-transparent pointer-events-none" />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <div className="bg-brand-card border border-brand-border rounded-3xl p-8 sm:p-14 shadow-elevated">
             <h2 className="text-3xl sm:text-5xl font-black text-brand-text tracking-tight mb-4">
@@ -671,7 +671,7 @@ export const Landing = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 to="/register"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold text-base text-white bg-brand-emerald hover:bg-brand-emeraldHover shadow-glow-emerald active:scale-95 transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold text-base text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 shadow-sm active:scale-95 transition-all"
               >
                 <span>Get Started Free</span>
                 <ArrowRight className="w-5 h-5" />
@@ -696,7 +696,7 @@ export const Landing = () => {
             {/* Col 1: Brand */}
             <div className="col-span-2 md:col-span-1 space-y-3">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-emerald to-emerald-600 flex items-center justify-center text-white shadow-glow-emerald">
+                <div className="w-8 h-8 rounded-lg bg-black dark:bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white shadow-sm">
                   <Wallet className="w-4 h-4" />
                 </div>
                 <span className="font-extrabold text-base text-brand-text">FinTrack PRO</span>

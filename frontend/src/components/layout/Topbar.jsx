@@ -17,6 +17,7 @@ import {
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { getTimeBasedGreeting } from '../../utils/formatters';
+import { notificationService } from '../../services/notificationService';
 
 export const Topbar = ({ onMenuClick }) => {
   const { user, logout, isMock } = useAuth();
@@ -25,9 +26,23 @@ export const Topbar = ({ onMenuClick }) => {
 
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [liveNotifications, setLiveNotifications] = useState([]);
+  const [liveUnreadCount, setLiveUnreadCount] = useState(0);
 
   const notificationsRef = useRef(null);
   const profileRef = useRef(null);
+
+  // Fetch real notifications on mount and when dropdown opens
+  useEffect(() => {
+    if (!user) return;
+    notificationService
+      .getNotifications()
+      .then((res) => {
+        setLiveNotifications(res.data || []);
+        setLiveUnreadCount(res.unread_count || 0);
+      })
+      .catch(() => {});
+  }, [user, notificationsOpen]);
 
   // Close dropdowns on outside click
   useEffect(() => {
@@ -56,33 +71,6 @@ export const Topbar = ({ onMenuClick }) => {
     });
   }, []);
 
-  const mockNotifications = [
-    {
-      id: 1,
-      title: 'Monthly Salary Credited',
-      desc: '₹45,000 received from TechCorp India',
-      time: '1h ago',
-      icon: CreditCard,
-      color: 'text-emerald-500',
-    },
-    {
-      id: 2,
-      title: 'Housing Budget Alert',
-      desc: 'Housing spending reached 94% of budget',
-      time: '5h ago',
-      icon: AlertCircle,
-      color: 'text-amber-500',
-    },
-    {
-      id: 3,
-      title: 'Electricity Bill Logged',
-      desc: '₹1,200 payment confirmed via UPI',
-      time: 'Yesterday',
-      icon: Check,
-      color: 'text-blue-500',
-    },
-  ];
-
   const handleSignOut = () => {
     setProfileOpen(false);
     logout();
@@ -105,7 +93,7 @@ export const Topbar = ({ onMenuClick }) => {
           <h1 className="text-lg sm:text-xl font-extrabold text-brand-text tracking-tight flex items-center gap-2">
             <span>{greeting}, {userName}</span>
             {isMock && (
-              <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+              <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-black dark:text-white bg-black/5 dark:bg-white/10 px-2 py-0.5 rounded-full border border-black/10 dark:border-white/10">
                 <Sparkles className="w-3 h-3" /> Live Demo
               </span>
             )}
@@ -135,38 +123,65 @@ export const Topbar = ({ onMenuClick }) => {
             aria-label="View notifications"
           >
             <Bell className="w-4 h-4" />
-            <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-brand-emerald ring-2 ring-brand-bg animate-pulse" />
+            {liveUnreadCount > 0 && (
+              <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-black dark:bg-white ring-2 ring-brand-bg animate-pulse" />
+            )}
           </button>
 
           {notificationsOpen && (
             <div className="absolute right-0 mt-3 w-80 sm:w-96 rounded-2xl glass-dropdown border border-brand-border shadow-elevated p-4 z-50 animate-fadeIn">
               <div className="flex items-center justify-between pb-3 mb-2 border-b border-brand-border">
                 <span className="font-bold text-sm text-brand-text">Notifications</span>
-                <span className="text-[11px] font-semibold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                  3 unread
+                <span className="text-[11px] font-semibold text-black dark:text-white bg-black/5 dark:bg-white/10 px-2 py-0.5 rounded-full border border-black/10 dark:border-white/10">
+                  {liveUnreadCount} unread
                 </span>
               </div>
-              <div className="space-y-2">
-                {mockNotifications.map((n) => {
-                  const Icon = n.icon;
-                  return (
+              <div className="space-y-2 max-h-64 overflow-y-auto">
+                {liveNotifications.length === 0 ? (
+                  <p className="text-xs text-brand-subtle py-4 text-center">
+                    No notifications or bill alerts.
+                  </p>
+                ) : (
+                  liveNotifications.slice(0, 5).map((n) => (
                     <div
                       key={n.id}
-                      className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-brand-card transition-colors cursor-pointer"
+                      onClick={() => {
+                        setNotificationsOpen(false);
+                        navigate('/notifications');
+                      }}
+                      className={`flex items-start gap-3 p-2.5 rounded-xl hover:bg-brand-card transition-colors cursor-pointer ${
+                        !n.is_read ? 'bg-brand-elevated/40' : ''
+                      }`}
                     >
-                      <div className={`p-2 rounded-lg bg-brand-elevated ${n.color}`}>
-                        <Icon className="w-4 h-4" />
+                      <div className="p-2 rounded-lg bg-brand-elevated text-black dark:text-white">
+                        <Bell className="w-4 h-4" />
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between">
                           <p className="text-xs font-semibold text-brand-text truncate">{n.title}</p>
-                          <span className="text-[10px] text-brand-subtle">{n.time}</span>
+                          <span className="text-[10px] text-brand-subtle">
+                            {new Date(n.created_at).toLocaleDateString('en-IN', {
+                              month: 'short',
+                              day: 'numeric',
+                            })}
+                          </span>
                         </div>
-                        <p className="text-xs text-brand-muted mt-0.5 truncate">{n.desc}</p>
+                        <p className="text-xs text-brand-muted mt-0.5 truncate">{n.message}</p>
                       </div>
                     </div>
-                  );
-                })}
+                  ))
+                )}
+              </div>
+              <div className="pt-2 mt-2 border-t border-brand-border/60">
+                <button
+                  onClick={() => {
+                    setNotificationsOpen(false);
+                    navigate('/notifications');
+                  }}
+                  className="w-full py-1.5 text-center text-xs text-black dark:text-white hover:underline font-semibold"
+                >
+                  View All Notifications
+                </button>
               </div>
             </div>
           )}
@@ -178,7 +193,7 @@ export const Topbar = ({ onMenuClick }) => {
             onClick={() => setProfileOpen(!profileOpen)}
             className="flex items-center gap-2.5 p-1.5 sm:px-3 sm:py-2 rounded-xl bg-brand-card hover:bg-brand-elevated border border-brand-border transition-all duration-200 text-left"
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-emerald to-blue-500 flex items-center justify-center text-white font-bold text-xs shadow-sm">
+            <div className="w-8 h-8 rounded-full bg-black dark:bg-zinc-800 border border-zinc-800 dark:border-zinc-700 flex items-center justify-center text-white font-bold text-xs shadow-sm">
               {userName.charAt(0).toUpperCase()}
             </div>
             <div className="hidden md:block">
@@ -202,7 +217,7 @@ export const Topbar = ({ onMenuClick }) => {
                 }}
                 className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-brand-muted hover:text-brand-text hover:bg-brand-elevated transition-colors text-left"
               >
-                <User className="w-4 h-4 text-brand-emerald" />
+                <User className="w-4 h-4 text-black dark:text-white" />
                 <span>Account Profile</span>
               </button>
 

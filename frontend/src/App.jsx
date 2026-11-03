@@ -13,8 +13,12 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
-import Analytics from './pages/Analytics';
+import UPIPayments from './pages/UPIPayments';
+import BankAccounts from './pages/BankAccounts';
+import Bills from './pages/Bills';
 import Budgets from './pages/Budgets';
+import Analytics from './pages/Analytics';
+import Notifications from './pages/Notifications';
 import Settings from './pages/Settings';
 import NotFound from './pages/NotFound';
 
@@ -78,8 +82,12 @@ export const App = () => {
                 >
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/transactions" element={<Transactions />} />
-                  <Route path="/analytics" element={<Analytics />} />
+                  <Route path="/upi-payments" element={<UPIPayments />} />
+                  <Route path="/bank-accounts" element={<BankAccounts />} />
+                  <Route path="/bills" element={<Bills />} />
                   <Route path="/budgets" element={<Budgets />} />
+                  <Route path="/analytics" element={<Analytics />} />
+                  <Route path="/notifications" element={<Notifications />} />
                   <Route path="/settings" element={<Settings />} />
                 </Route>
 

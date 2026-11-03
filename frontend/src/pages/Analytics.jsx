@@ -69,7 +69,7 @@ export const Analytics = () => {
                 onClick={() => setSelectedRange(range.value)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
                   selectedRange === range.value
-                    ? 'bg-brand-emerald text-white shadow-glow-emerald'
+                    ? 'bg-black text-white dark:bg-zinc-800 dark:text-white shadow-sm border border-zinc-800'
                     : 'text-brand-muted hover:text-brand-text hover:bg-brand-elevated'
                 }`}
               >
@@ -112,7 +112,7 @@ export const Analytics = () => {
             <div className="bg-brand-card border border-brand-border rounded-2xl p-5 shadow-card flex items-center justify-between">
               <div className="space-y-1">
                 <span className="text-xs text-brand-muted font-medium uppercase tracking-wider flex items-center gap-1.5">
-                  <Activity className="w-4 h-4 text-brand-emerald" />
+                  <Activity className="w-4 h-4 text-black dark:text-white" />
                   Average Monthly Expenses Run-Rate
                 </span>
                 <div className="flex items-center gap-2 mt-1">

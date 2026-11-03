@@ -162,7 +162,7 @@ export const Budgets = () => {
               onClick={() => setSelectedPeriod('current')}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                 selectedPeriod === 'current'
-                  ? 'bg-brand-emerald text-white shadow-glow-emerald'
+                  ? 'bg-black text-white dark:bg-zinc-800 dark:text-white shadow-sm border border-zinc-800'
                   : 'text-brand-muted hover:text-brand-text'
               }`}
             >
@@ -172,7 +172,7 @@ export const Budgets = () => {
               onClick={() => setSelectedPeriod('previous')}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                 selectedPeriod === 'previous'
-                  ? 'bg-brand-emerald text-white shadow-glow-emerald'
+                  ? 'bg-black text-white dark:bg-zinc-800 dark:text-white shadow-sm border border-zinc-800'
                   : 'text-brand-muted hover:text-brand-text'
               }`}
             >
@@ -182,7 +182,7 @@ export const Budgets = () => {
               onClick={() => setSelectedPeriod('all')}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                 selectedPeriod === 'all'
-                  ? 'bg-brand-emerald text-white shadow-glow-emerald'
+                  ? 'bg-black text-white dark:bg-zinc-800 dark:text-white shadow-sm border border-zinc-800'
                   : 'text-brand-muted hover:text-brand-text'
               }`}
             >
@@ -192,7 +192,7 @@ export const Budgets = () => {
 
           <button
             onClick={handleOpenAdd}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white bg-brand-emerald hover:bg-brand-emeraldHover active:scale-95 shadow-glow-emerald transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 active:scale-95 shadow-sm transition-all"
           >
             <Plus className="w-4 h-4" />
             <span>New Budget</span>
@@ -206,7 +206,7 @@ export const Budgets = () => {
           <div className="space-y-2 flex-1">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-brand-muted uppercase tracking-wider flex items-center gap-2">
-                <Wallet className="w-4 h-4 text-brand-emerald" />
+                <Wallet className="w-4 h-4 text-black dark:text-white" />
                 Monthly Aggregate Spending Budget
               </span>
               <button
@@ -214,7 +214,7 @@ export const Budgets = () => {
                   setNewOverallLimit(overallBudget.toString());
                   setOverallModalOpen(true);
                 }}
-                className="inline-flex items-center gap-1.5 text-xs text-brand-emerald hover:text-emerald-500 font-semibold px-2.5 py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs text-black dark:text-white font-semibold px-2.5 py-1 rounded-lg bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/20 border border-brand-border transition-colors"
               >
                 <Pencil className="w-3.5 h-3.5" />
                 <span>Adjust Limit</span>
@@ -286,7 +286,7 @@ export const Budgets = () => {
             <p className="text-sm text-brand-muted mb-4">No category budgets created yet.</p>
             <button
               onClick={handleOpenAdd}
-              className="px-4 py-2 bg-brand-emerald text-white text-xs font-semibold rounded-xl"
+              className="px-4 py-2 bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-white text-xs font-semibold rounded-xl border border-zinc-800 shadow-sm"
             >
               Add First Category Budget
             </button>
@@ -337,7 +337,7 @@ export const Budgets = () => {
                 step="any"
                 value={newOverallLimit}
                 onChange={(e) => setNewOverallLimit(e.target.value)}
-                className="w-full pl-8 pr-3.5 py-2.5 rounded-xl bg-brand-elevated border border-brand-border text-brand-text text-sm font-semibold focus:outline-none focus:border-brand-emerald focus:ring-2 focus:ring-brand-emerald/20 transition-all"
+                className="w-full pl-8 pr-3.5 py-2.5 rounded-xl bg-brand-elevated border border-brand-border text-brand-text text-sm font-semibold focus:outline-none focus:border-black focus:ring-2 focus:ring-black/20 dark:focus:border-white dark:focus:ring-white/20 transition-all"
                 required
               />
             </div>
@@ -354,7 +354,7 @@ export const Budgets = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-5 py-2 rounded-xl text-sm font-semibold text-white bg-brand-emerald hover:bg-brand-emeraldHover shadow-glow-emerald"
+              className="px-5 py-2 rounded-xl text-sm font-semibold text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 shadow-sm"
             >
               Update Budget
             </button>

@@ -75,7 +75,7 @@ export const BudgetModal = ({
             value={formData.category}
             disabled={!!initialData}
             onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-            className="w-full px-3.5 py-2.5 rounded-xl bg-brand-elevated border border-brand-border text-brand-text text-sm focus:outline-none focus:border-brand-emerald focus:ring-2 focus:ring-brand-emerald/20 transition-all disabled:opacity-60 cursor-pointer"
+            className="w-full px-3.5 py-2.5 rounded-xl bg-brand-elevated border border-brand-border text-brand-text text-sm focus:outline-none focus:border-black focus:ring-2 focus:ring-black/20 dark:focus:border-white dark:focus:ring-white/20 transition-all disabled:opacity-60 cursor-pointer"
           >
             {EXPENSE_CATEGORIES.map((cat) => (
               <option key={cat} value={cat} className="bg-brand-card text-brand-text py-1">
@@ -105,7 +105,7 @@ export const BudgetModal = ({
               className={`w-full pl-8 pr-3.5 py-2.5 rounded-xl bg-brand-elevated border text-brand-text text-sm font-semibold placeholder-brand-subtle focus:outline-none focus:ring-2 transition-all ${
                 errors.allocated
                   ? 'border-rose-500 focus:ring-rose-500/30'
-                  : 'border-brand-border focus:border-brand-emerald focus:ring-brand-emerald/20'
+                  : 'border-brand-border focus:border-black focus:ring-black/20 dark:focus:border-white dark:focus:ring-white/20'
               }`}
             />
           </div>
@@ -125,7 +125,7 @@ export const BudgetModal = ({
           <button
             type="submit"
             disabled={isLoading}
-            className="px-5 py-2.5 text-sm font-semibold rounded-xl text-white bg-brand-emerald hover:bg-brand-emeraldHover active:scale-95 transition-all shadow-glow-emerald flex items-center gap-2"
+            className="px-5 py-2.5 text-sm font-semibold rounded-xl text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 active:scale-95 transition-all shadow-sm flex items-center gap-2"
           >
             {isLoading && (
               <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

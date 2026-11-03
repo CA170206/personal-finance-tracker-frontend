@@ -74,13 +74,13 @@ export const Register = () => {
   return (
     <div className="min-h-screen bg-brand-bg flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden transition-colors duration-200">
       {/* Background Glow Orbs */}
-      <div className="absolute top-1/4 -right-32 w-96 h-96 bg-brand-emerald/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 -right-32 w-96 h-96 bg-black/10 dark:bg-white/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 -left-32 w-96 h-96 bg-brand-blue/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
         {/* Brand Header */}
         <div className="text-center mb-6">
-          <Link to="/" className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-emerald to-emerald-600 shadow-glow-emerald mb-4 hover:scale-105 transition-transform">
+          <Link to="/" className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-black dark:bg-zinc-900 border border-zinc-800 text-white shadow-sm mb-4 hover:scale-105 transition-transform">
             <Wallet className="w-7 h-7 text-white" />
           </Link>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight">
@@ -109,7 +109,7 @@ export const Register = () => {
                   className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-brand-elevated border text-brand-text text-sm placeholder-brand-subtle focus:outline-none focus:ring-2 transition-all ${
                     errors.name
                       ? 'border-rose-500 focus:ring-rose-500/30'
-                      : 'border-brand-border focus:border-brand-emerald focus:ring-brand-emerald/20'
+                      : 'border-brand-border focus:border-black focus:ring-black/20 dark:focus:border-white dark:focus:ring-white/20'
                   }`}
                 />
               </div>
@@ -131,7 +131,7 @@ export const Register = () => {
                   className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-brand-elevated border text-brand-text text-sm placeholder-brand-subtle focus:outline-none focus:ring-2 transition-all ${
                     errors.email
                       ? 'border-rose-500 focus:ring-rose-500/30'
-                      : 'border-brand-border focus:border-brand-emerald focus:ring-brand-emerald/20'
+                      : 'border-brand-border focus:border-black focus:ring-black/20 dark:focus:border-white dark:focus:ring-white/20'
                   }`}
                 />
               </div>
@@ -153,7 +153,7 @@ export const Register = () => {
                   className={`w-full pl-10 pr-10 py-2.5 rounded-xl bg-brand-elevated border text-brand-text text-sm placeholder-brand-subtle focus:outline-none focus:ring-2 transition-all ${
                     errors.password
                       ? 'border-rose-500 focus:ring-rose-500/30'
-                      : 'border-brand-border focus:border-brand-emerald focus:ring-brand-emerald/20'
+                      : 'border-brand-border focus:border-black focus:ring-black/20 dark:focus:border-white dark:focus:ring-white/20'
                   }`}
                 />
                 <button
@@ -182,7 +182,7 @@ export const Register = () => {
                   className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-brand-elevated border text-brand-text text-sm placeholder-brand-subtle focus:outline-none focus:ring-2 transition-all ${
                     errors.confirmPassword
                       ? 'border-rose-500 focus:ring-rose-500/30'
-                      : 'border-brand-border focus:border-brand-emerald focus:ring-brand-emerald/20'
+                      : 'border-brand-border focus:border-black focus:ring-black/20 dark:focus:border-white dark:focus:ring-white/20'
                   }`}
                 />
               </div>
@@ -199,15 +199,15 @@ export const Register = () => {
                   type="checkbox"
                   checked={formData.agreeTerms}
                   onChange={(e) => setFormData((prev) => ({ ...prev, agreeTerms: e.target.checked }))}
-                  className="mt-0.5 w-4 h-4 rounded border-brand-border text-brand-emerald bg-brand-elevated focus:ring-brand-emerald cursor-pointer"
+                  className="mt-0.5 w-4 h-4 rounded border-brand-border text-black dark:text-white bg-brand-elevated focus:ring-black dark:focus:ring-white cursor-pointer"
                 />
                 <label htmlFor="terms" className="text-xs text-brand-muted select-none leading-relaxed">
                   I agree to the{' '}
-                  <span className="text-brand-emerald hover:underline cursor-pointer">
+                  <span className="text-black dark:text-white hover:underline cursor-pointer font-medium">
                     Terms of Service
                   </span>{' '}
                   and acknowledge the{' '}
-                  <span className="text-brand-emerald hover:underline cursor-pointer">
+                  <span className="text-black dark:text-white hover:underline cursor-pointer font-medium">
                     Privacy Policy
                   </span>
                   .
@@ -222,7 +222,7 @@ export const Register = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full mt-2 py-3 px-4 rounded-xl font-bold text-sm text-white bg-brand-emerald hover:bg-brand-emeraldHover active:scale-98 transition-all shadow-glow-emerald flex items-center justify-center gap-2"
+              className="w-full mt-2 py-3 px-4 rounded-xl font-bold text-sm text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 active:scale-98 transition-all shadow-sm flex items-center justify-center gap-2"
             >
               {isLoading ? (
                 <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -239,7 +239,7 @@ export const Register = () => {
           <div className="mt-6 pt-6 border-t border-brand-border text-center">
             <p className="text-xs text-brand-muted">
               Already have an account?{' '}
-              <Link to="/login" className="text-brand-emerald hover:underline font-semibold ml-1">
+              <Link to="/login" className="text-black dark:text-white hover:underline font-semibold ml-1">
                 Sign in instead
               </Link>
             </p>
@@ -248,7 +248,7 @@ export const Register = () => {
 
         {/* Security Assurance */}
         <div className="mt-6 flex items-center justify-center gap-2 text-xs text-brand-subtle">
-          <ShieldCheck className="w-4 h-4 text-brand-emerald" />
+          <ShieldCheck className="w-4 h-4 text-black dark:text-white" />
           <span>Encrypted storage & zero telemetry sharing</span>
         </div>
       </div>

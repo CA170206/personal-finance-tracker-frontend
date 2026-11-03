@@ -61,7 +61,7 @@ export const Dashboard = () => {
 
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white bg-brand-emerald hover:bg-brand-emeraldHover active:scale-95 shadow-glow-emerald transition-all"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 active:scale-95 shadow-sm transition-all"
           >
             <Plus className="w-4 h-4" />
             <span>Add Transaction</span>
@@ -71,9 +71,9 @@ export const Dashboard = () => {
 
       {/* Empty State Onboarding Banner for New Users */}
       {hasZeroTransactions && (
-        <div className="bg-brand-card border border-brand-emerald/30 rounded-2xl p-5 sm:p-6 shadow-card flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-gradient-to-r from-brand-card via-brand-card to-emerald-500/5">
+        <div className="bg-brand-card border border-brand-border rounded-2xl p-5 sm:p-6 shadow-card flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-500">
+            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-black dark:text-white">
               <Sparkles className="w-3.5 h-3.5" />
               <span>Get Started</span>
             </div>
@@ -87,7 +87,7 @@ export const Dashboard = () => {
 
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-white bg-brand-emerald hover:bg-brand-emeraldHover shadow-glow-emerald active:scale-95 transition-all flex-shrink-0"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 active:scale-95 shadow-sm transition-all flex-shrink-0"
           >
             <span>Add Your First Transaction</span>
             <ArrowRight className="w-4 h-4" />

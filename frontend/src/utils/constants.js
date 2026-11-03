@@ -49,3 +49,44 @@ export const DATE_RANGES = [
   { label: 'Last 6 months', value: '6m' },
   { label: 'This year', value: '1y' },
 ];
+
+export const BILL_CATEGORIES = [
+  'Electricity',
+  'Water',
+  'Gas',
+  'Mobile recharge',
+  'Broadband',
+  'DTH',
+  'Other',
+];
+
+export const PAYMENT_PROVIDERS = [
+  'Google Pay',
+  'PhonePe',
+  'Paytm',
+  'BHIM',
+  'Amazon Pay',
+  'Cred',
+  'Other',
+];
+
+export const BANK_NAMES = [
+  'HDFC Bank',
+  'State Bank of India',
+  'ICICI Bank',
+  'Axis Bank',
+  'Kotak Mahindra Bank',
+  'Punjab National Bank',
+  'Bank of Baroda',
+  'IndusInd Bank',
+  'Yes Bank',
+  'Other',
+];
+
+export const ACCOUNT_TYPES = [
+  'Savings',
+  'Salary',
+  'Current',
+  'Credit Card',
+  'Investment',
+];
