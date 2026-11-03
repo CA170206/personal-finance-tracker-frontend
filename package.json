@@ -1,0 +1,28 @@
+{
+  "name": "fintrack",
+  "version": "1.0.0",
+  "private": true,
+  "description": "FinTrack PRO - Complete Personal Finance Tracker SaaS (Frontend & Backend)",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "build:frontend": "npm --prefix frontend run build",
+    "lint:frontend": "npm --prefix frontend run lint",
+    "seed:backend": "npm --prefix backend run seed",
+    "start:backend": "npm --prefix backend run start"
+  },
+  "keywords": [
+    "fintech",
+    "personal-finance",
+    "react",
+    "vite",
+    "tailwind",
+    "nodejs",
+    "express",
+    "mongodb"
+  ],
+  "author": "FinTrack Engineering",
+  "license": "MIT"
+}
+

@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --bg-primary: #F8FAFC;
+    --bg-sidebar: #FFFFFF;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #F8FAFC;
+    --bg-elevated: #F1F5F9;
+    --border-color: #E2E8F0;
+    --border-light: #CBD5E1;
+    --text-primary: #0F172A;
+    --text-muted: #475569;
+    --text-subtle: #64748B;
+    --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+    --card-shadow-elevated: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.06);
+    --scrollbar-track: #F8FAFC;
+    --scrollbar-thumb: #CBD5E1;
+  }
+
+  .dark {
+    color-scheme: dark;
+    --bg-primary: #0B0F19;
+    --bg-sidebar: #0F1523;
+    --bg-card: #151B2B;
+    --bg-card-hover: #1A2236;
+    --bg-elevated: #1E263D;
+    --border-color: #232D42;
+    --border-light: #2F3C56;
+    --text-primary: #F8FAFC;
+    --text-muted: #94A3B8;
+    --text-subtle: #64748B;
+    --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.45);
+    --card-shadow-elevated: 0 10px 30px -4px rgba(0, 0, 0, 0.6);
+    --scrollbar-track: #0B0F19;
+    --scrollbar-thumb: #232D42;
+  }
+
+  html, body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* Custom sleek scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #64748B;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+  }
+
+  .dark .glass-card {
+    background: rgba(21, 27, 43, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(35, 45, 66, 0.7);
+  }
+
+  .glass-dropdown {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+  }
+
+  .dark .glass-dropdown {
+    background: rgba(30, 38, 61, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(47, 60, 86, 0.8);
+  }
+
+  .border-glow-emerald {
+    box-shadow: 0 0 15px -3px rgba(16, 185, 129, 0.25);
+  }
+
+  .border-glow-blue {
+    box-shadow: 0 0 15px -3px rgba(59, 130, 246, 0.25);
+  }
+}
+
+/* Recharts Tooltip styling override */
+.recharts-default-tooltip {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--card-shadow-elevated) !important;
+  padding: 10px 14px !important;
+}
+
+.recharts-tooltip-label {
+  color: var(--text-primary) !important;
+  font-weight: 600 !important;
+  margin-bottom: 4px !important;
+}

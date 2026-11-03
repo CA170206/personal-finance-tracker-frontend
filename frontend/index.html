@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2310B981' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'/></svg>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0B0F19" />
+    <meta name="description" content="FinTrack is an enterprise-grade personal finance and wealth management dashboard designed for intelligent budget tracking, expense analytics, and cash flow forecasting in Indian Rupees." />
+    <meta name="keywords" content="personal finance, expense tracker, budget management, fintech dashboard, cash flow, rupee tracker" />
+    <title>FinTrack — Intelligent Personal Finance & Wealth Dashboard</title>
+
+    <!-- Prevent Theme Flash -->
+    <script>
+      (function() {
+        try {
+          var theme = localStorage.getItem('fintrack_theme');
+          var supportDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (theme === 'dark' || (!theme && supportDark) || !theme) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-brand-bg text-brand-text font-sans antialiased selection:bg-brand-emerald/30 selection:text-brand-emerald">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
