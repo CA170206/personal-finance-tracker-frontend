@@ -38,25 +38,34 @@ export const ComingSoon = ({
         {/* Subtle background glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-40 bg-black/5 dark:bg-white/5 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 max-w-2xl mx-auto space-y-4">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-black dark:bg-zinc-900 border border-zinc-800 text-white shadow-sm mb-2">
-            {Icon && <Icon className="w-8 h-8" />}
+        <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center">
+          {/* Centered Top Icon Container with ample vertical spacing */}
+          <div className="mb-6 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-2xl bg-black dark:bg-zinc-900 border border-zinc-800 text-white shadow-sm flex items-center justify-center">
+              {Icon && <Icon className="w-8 h-8" />}
+            </div>
           </div>
 
-          <div className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-widest block">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>{subtitle}</span>
+          {/* Subtitle Pill Badge on its own row */}
+          <div className="mb-4 flex items-center justify-center">
+            <span className="inline-flex items-center gap-2 text-xs font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-widest px-3.5 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700/60 shadow-xs">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>{subtitle}</span>
+            </span>
           </div>
 
-          <h1 className="text-2xl sm:text-4xl font-black text-brand-text tracking-tight">
+          {/* Heading */}
+          <h1 className="text-2xl sm:text-4xl font-black text-brand-text tracking-tight mb-4 text-center leading-tight">
             {title}
           </h1>
 
-          <p className="text-sm sm:text-base text-brand-muted leading-relaxed">
+          {/* Description */}
+          <p className="text-sm sm:text-base text-brand-muted leading-relaxed text-center max-w-xl mb-8">
             {description}
           </p>
 
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+          {/* Action CTAs */}
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
               to="/dashboard"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 active:scale-95 shadow-sm transition-all"
