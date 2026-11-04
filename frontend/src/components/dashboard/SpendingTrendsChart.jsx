@@ -30,9 +30,9 @@ const CustomLineTooltip = ({ active, payload, label }) => {
 export const SpendingTrendsChart = ({ data = [] }) => {
   const { isDark } = useTheme();
 
-  const gridColor = isDark ? '#232D42' : '#E2E8F0';
-  const textColor = isDark ? '#94A3B8' : '#64748B';
-  const dotStroke = isDark ? '#151B2B' : '#FFFFFF';
+  const gridColor = isDark ? '#27272A' : '#E2E8F0';
+  const textColor = isDark ? '#A1A1AA' : '#64748B';
+  const dotStroke = isDark ? '#121215' : '#FFFFFF';
 
   const hasExpenses = data.some((d) => (d.expenses || 0) > 0);
 

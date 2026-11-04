@@ -125,7 +125,7 @@ export const BudgetModal = ({
           <button
             type="submit"
             disabled={isLoading}
-            className="px-5 py-2.5 text-sm font-semibold rounded-xl text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 active:scale-95 transition-all shadow-sm flex items-center gap-2"
+            className="px-5 py-2.5 text-sm font-semibold rounded-xl text-white bg-black hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 border border-black dark:border-white active:scale-95 transition-all shadow-sm flex items-center gap-2"
           >
             {isLoading && (
               <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

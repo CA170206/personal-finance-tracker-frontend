@@ -79,7 +79,7 @@ export const CategoryExpenseDonutChart = ({
                 <Cell
                   key={`cell-${index}`}
                   fill={CATEGORY_COLORS[entry.name] || '#3B82F6'}
-                  stroke={isDark ? '#151B2B' : '#FFFFFF'}
+                  stroke={isDark ? '#121215' : '#FFFFFF'}
                   strokeWidth={2}
                 />
               ))}

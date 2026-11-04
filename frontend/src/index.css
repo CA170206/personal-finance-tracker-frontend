@@ -23,20 +23,20 @@
 
   .dark {
     color-scheme: dark;
-    --bg-primary: #0B0F19;
-    --bg-sidebar: #0F1523;
-    --bg-card: #151B2B;
-    --bg-card-hover: #1A2236;
-    --bg-elevated: #1E263D;
-    --border-color: #232D42;
-    --border-light: #2F3C56;
-    --text-primary: #F8FAFC;
-    --text-muted: #94A3B8;
-    --text-subtle: #64748B;
-    --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.45);
-    --card-shadow-elevated: 0 10px 30px -4px rgba(0, 0, 0, 0.6);
-    --scrollbar-track: #0B0F19;
-    --scrollbar-thumb: #232D42;
+    --bg-primary: #09090B;
+    --bg-sidebar: #0C0C0F;
+    --bg-card: #121215;
+    --bg-card-hover: #18181C;
+    --bg-elevated: #1A1A1F;
+    --border-color: #27272A;
+    --border-light: #3F3F46;
+    --text-primary: #FFFFFF;
+    --text-muted: #A1A1AA;
+    --text-subtle: #71717A;
+    --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    --card-shadow-elevated: 0 10px 30px -4px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.08);
+    --scrollbar-track: #09090B;
+    --scrollbar-thumb: #27272A;
   }
 
   html, body {
@@ -44,6 +44,18 @@
     color: var(--text-primary);
     overflow-x: hidden;
     transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* Form control dark mode consistency */
+  .dark select option {
+    background-color: #121215;
+    color: #FFFFFF;
+  }
+
+  .dark input,
+  .dark select,
+  .dark textarea {
+    color-scheme: dark;
   }
 
   /* Custom sleek scrollbar */
@@ -59,7 +71,7 @@
     border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #64748B;
+    background: #71717A;
   }
 }
 
@@ -72,10 +84,10 @@
   }
 
   .dark .glass-card {
-    background: rgba(21, 27, 43, 0.75);
+    background: rgba(18, 18, 21, 0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(35, 45, 66, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .glass-dropdown {
@@ -86,10 +98,10 @@
   }
 
   .dark .glass-dropdown {
-    background: rgba(30, 38, 61, 0.95);
+    background: rgba(22, 22, 26, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(47, 60, 86, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.12);
   }
 
   .border-glow-emerald {

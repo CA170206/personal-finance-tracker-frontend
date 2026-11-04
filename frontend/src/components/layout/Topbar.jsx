@@ -112,7 +112,7 @@ export const Topbar = ({ onMenuClick }) => {
           aria-label="Toggle dark/light theme"
           title={isDark ? 'Switch to Light mode' : 'Switch to Dark mode'}
         >
-          {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-blue-500" />}
+          {isDark ? <Sun className="w-4 h-4 text-black dark:text-white" /> : <Moon className="w-4 h-4 text-black dark:text-white" />}
         </button>
 
         {/* Notifications Icon & Popover */}
@@ -129,7 +129,7 @@ export const Topbar = ({ onMenuClick }) => {
           </button>
 
           {notificationsOpen && (
-            <div className="absolute right-0 mt-3 w-80 sm:w-96 rounded-2xl glass-dropdown border border-brand-border shadow-elevated p-4 z-50 animate-fadeIn">
+            <div className="absolute right-0 mt-3 w-[calc(100vw-2rem)] sm:w-96 max-w-sm rounded-2xl glass-dropdown border border-brand-border shadow-elevated p-4 z-50 animate-fadeIn">
               <div className="flex items-center justify-between pb-3 mb-2 border-b border-brand-border">
                 <span className="font-bold text-sm text-brand-text">Notifications</span>
                 <span className="text-[11px] font-semibold text-black dark:text-white bg-black/5 dark:bg-white/10 px-2 py-0.5 rounded-full border border-black/10 dark:border-white/10">
@@ -193,7 +193,7 @@ export const Topbar = ({ onMenuClick }) => {
             onClick={() => setProfileOpen(!profileOpen)}
             className="flex items-center gap-2.5 p-1.5 sm:px-3 sm:py-2 rounded-xl bg-brand-card hover:bg-brand-elevated border border-brand-border transition-all duration-200 text-left"
           >
-            <div className="w-8 h-8 rounded-full bg-black dark:bg-zinc-800 border border-zinc-800 dark:border-zinc-700 flex items-center justify-center text-white font-bold text-xs shadow-sm">
+            <div className="w-8 h-8 rounded-full bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white flex items-center justify-center font-bold text-xs shadow-sm">
               {userName.charAt(0).toUpperCase()}
             </div>
             <div className="hidden md:block">
@@ -228,7 +228,7 @@ export const Topbar = ({ onMenuClick }) => {
                 }}
                 className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-brand-muted hover:text-brand-text hover:bg-brand-elevated transition-colors text-left"
               >
-                <Settings className="w-4 h-4 text-brand-blue" />
+                <Settings className="w-4 h-4 text-black dark:text-white" />
                 <span>Preferences & Theme</span>
               </button>
 

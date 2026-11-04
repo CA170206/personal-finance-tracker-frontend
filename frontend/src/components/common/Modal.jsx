@@ -35,7 +35,7 @@ export const Modal = ({
 
       {/* Modal Dialog Content */}
       <div
-        className={`relative w-full ${maxWidth} bg-brand-card border border-brand-border rounded-2xl shadow-elevated p-6 z-10 transform transition-all duration-300 scale-100 my-8`}
+        className={`relative w-full ${maxWidth} bg-brand-card border border-brand-border rounded-2xl shadow-elevated p-4 sm:p-6 z-10 transform transition-all duration-300 scale-100 my-auto max-h-[calc(100dvh-2rem)] overflow-y-auto`}
       >
         {/* Header */}
         <div className="flex items-start justify-between pb-4 mb-4 border-b border-brand-border/60">

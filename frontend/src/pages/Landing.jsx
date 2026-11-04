@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Wallet,
   ArrowRight,
@@ -21,78 +21,236 @@ import {
   ChevronRight,
   BrainCircuit,
   Bot,
-  User,
   Calendar,
   LineChart,
   ShieldAlert,
-  Layers,
   XCircle,
-  Zap,
   Check,
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
 
 export const Landing = () => {
+  const navigate = useNavigate();
   const { toggleTheme, isDark } = useTheme();
   const { isAuthenticated } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeScenario, setActiveScenario] = useState('spending');
+  const [selectedCapability, setSelectedCapability] = useState(null);
+  const [selectedFeature, setSelectedFeature] = useState(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setSelectedCapability(null);
+        setSelectedFeature(null);
+      }
+    };
+    if (selectedCapability || selectedFeature) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedCapability, selectedFeature]);
+
+  const handleTryDemo = (scenarioKey) => {
+    setSelectedCapability(null);
+    if (scenarioKey && sampleScenarios[scenarioKey]) {
+      setActiveScenario(scenarioKey);
+    }
+    setTimeout(() => {
+      const el = document.getElementById('ai-preview');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 80);
+  };
+
+  const handleLaunchAI = () => {
+    setSelectedCapability(null);
+    if (isAuthenticated) {
+      navigate('/ai-assistant');
+    } else {
+      navigate('/register');
+    }
+  };
+
+  const handleFeatureNavigate = (feature) => {
+    setSelectedFeature(null);
+    if (isAuthenticated) {
+      navigate(feature.route);
+    } else {
+      navigate('/register');
+    }
+  };
 
   const aiCapabilities = [
     {
+      id: 'spending-analysis',
       icon: LineChart,
       title: 'Intelligent Spending Analysis',
       description: 'AI analyzes recorded transactions and identifies spending patterns.',
       tag: 'Analysis',
+      scenarioKey: 'spending',
+      details:
+        'Continuously aggregates and classifies your recorded expenses across temporal windows (this month vs last month, quarterly, or yearly) to expose peak burn categories and hidden spending surges without manual spreadsheets.',
+      highlights: [
+        'Automated category breakdown and period-over-period percentage delta computation',
+        'Top-spending merchant identification with transaction counts and totals',
+        'Direct connection to Supabase transactions ledger with zero hallucination',
+      ],
+      samplePrompt: 'Where did most of my money go this month?',
+      sampleResponse:
+        'Based on your recorded transactions, your highest spending category this month is Food at ₹4,500 (+22% vs last month). Reducing food expenses by ₹1,000 could improve your monthly savings.',
     },
     {
+      id: 'saving-recommendations',
       icon: TrendingDown,
       title: 'Personalized Saving Recommendations',
       description: 'Discover unnecessary expenses and opportunities to save based on your income and spending habits.',
       tag: 'Savings',
+      scenarioKey: 'spending',
+      details:
+        'Evaluates your net savings rate against target benchmarks and isolates discretionary leaks in dining, recurring subscriptions, and impulse purchases, providing achievable incremental targets.',
+      highlights: [
+        'Realistic monthly spending reduction targets tailored to your cashflow',
+        'Actionable surplus optimization without sacrificing essential living expenses',
+        'Proactive recommendations stored in your persistent financial memory',
+      ],
+      samplePrompt: 'How can I increase my monthly savings by ₹5,000?',
+      sampleResponse:
+        'Reducing Food & Dining by ₹2,000 and pausing 2 inactive subscriptions would recover ₹3,400 monthly. Reallocating from discretionary entertainment covers the remaining ₹1,600.',
     },
     {
+      id: 'financial-memory',
       icon: BrainCircuit,
       title: 'Financial Memory',
       description: 'Ask questions about previous transactions, monthly spending, income, and financial history.',
       tag: 'Memory',
+      scenarioKey: 'spending',
+      details:
+        'Maintains user-specific context across sessions without resending raw database dumps. Remembers your long-term savings goals, preferred category caps, and past financial queries.',
+      highlights: [
+        'Persistent cross-session intelligence grounded in your private financial record',
+        'Remembers previous recommendations and tracks whether you followed through',
+        'Zero cross-tenant leakage with strict user ID row-level isolation',
+      ],
+      samplePrompt: 'What was my average grocery bill over the last 3 months?',
+      sampleResponse:
+        'Your average monthly grocery spend was ₹4,230 across 18 transactions from January to March, trending down 6% over the quarter.',
     },
     {
+      id: 'smart-budget-monitoring',
       icon: Sliders,
       title: 'Smart Budget Monitoring',
       description: 'Receive personalized warnings when spending approaches or exceeds budget limits.',
       tag: 'Budgets',
+      scenarioKey: 'action',
+      details:
+        'Proactively tracks live expenditure against established category thresholds. Prepares guarded budget modifications with one-click user authorization before updating your database.',
+      highlights: [
+        'Deterministic calculation of burn rates and days remaining in the month',
+        'Guarded proposal workflows: AI prepares changes, you approve before writing to DB',
+        'Visual threshold indicators before critical overspending occurs',
+      ],
+      samplePrompt: 'Set a monthly food budget of ₹6,000',
+      sampleResponse:
+        'I have prepared a proposed budget update: Food budget limit set to ₹6,000/month. Please review and confirm below to execute this in your database.',
     },
     {
+      id: 'unusual-spending-detection',
       icon: ShieldAlert,
       title: 'Unusual Spending Detection',
       description: 'Identify unexpected expenses and changes in normal spending patterns.',
       tag: 'Anomalies',
+      scenarioKey: 'spending',
+      details:
+        'Flags statistical anomalies such as duplicate vendor debits, unexpected price hikes, or atypical one-off withdrawals before they skew your monthly plan.',
+      highlights: [
+        'Anomaly scoring based on your standard baseline transaction distributions',
+        'Instant alerts for high-value single transactions outside routine bounds',
+        'Differentiates between one-time capital purchases and chronic overspending',
+      ],
+      samplePrompt: 'Were there any unusual transactions this month?',
+      sampleResponse:
+        'Detected 1 unusual transaction: ₹18,000 to Apartment Lease on 02 Apr (4.2x your median daily transaction size). All other routine debits match normal patterns.',
     },
     {
+      id: 'upcoming-bill-awareness',
       icon: Calendar,
       title: 'Upcoming Bill Awareness',
       description: 'Get reminders and insights about recorded upcoming bills.',
       tag: 'Bills',
+      scenarioKey: 'affordability',
+      details:
+        'Cross-references your recorded bank balances against upcoming utility, subscription, and loan obligations so you always know true spendable liquidity.',
+      highlights: [
+        'Deducts pending obligations when answering purchase affordability questions',
+        'Days-to-due countdowns and overdue status tracking',
+        'Safeguards against accidental overdrafts or missed payment deadlines',
+      ],
+      samplePrompt: 'Which bills are due next week?',
+      sampleResponse:
+        'You have 2 bills due next week: Tata Power electricity (₹3,400, due in 4 days) and Airtel Fiber (₹1,180, due in 6 days). Total obligation: ₹4,580.',
     },
     {
+      id: 'monthly-financial-insights',
       icon: BarChart3,
       title: 'Monthly Financial Insights',
       description: 'Understand where your money goes and how your financial habits change over time.',
       tag: 'Insights',
+      scenarioKey: 'spending',
+      details:
+        'Synthesizes monthly summaries comparing income, total expenditure, net savings rate, and category velocity into executive summaries you can read in seconds.',
+      highlights: [
+        'High-level monthly cash flow synthesis with net savings calculation',
+        'Month-over-month percentage comparisons across core categories',
+        'Interactive insight cards generated directly alongside narrative answers',
+      ],
+      samplePrompt: 'Compare this month with last month',
+      sampleResponse:
+        'Net income rose 5.0% to ₹85,000, while expenses dropped 8.1% to ₹28,400. Your net savings rate reached an exceptional 66.5%.',
     },
     {
+      id: 'conversational-financial-assistance',
       icon: Bot,
       title: 'Conversational Financial Assistance',
       description: 'Ask questions naturally and receive answers based on your actual FinnTrack financial records.',
       tag: 'Natural Language',
+      scenarioKey: 'affordability',
+      details:
+        'No need to parse confusing dashboards or configure SQL queries. Converse naturally in plain English and receive responses grounded in your actual ledger.',
+      highlights: [
+        'Dynamic multi-turn tool calling with streaming assistant responses',
+        'Context-aware follow-up suggestion chips to dive deeper in one click',
+        'Complete separation between financial data retrieval and generative synthesis',
+      ],
+      samplePrompt: 'Can I afford a ₹12,000 smartwatch purchase?',
+      sampleResponse:
+        'Easily Affordable. Your recorded balance is ₹85,000. After reserving ₹3,400 for bills and living costs, you retain a ₹55,600 surplus buffer.',
     },
     {
+      id: 'adaptive-intelligence',
       icon: Sparkles,
       title: 'Adaptive Intelligence',
       description: 'AI recommendations become more personalized using user feedback and financial history.',
       tag: 'Adaptive',
+      scenarioKey: 'action',
+      details:
+        'Learns your feedback preferences over time. If you reject high-frugality suggestions or favor investment allocations, the assistant adapts its tone and recommendations.',
+      highlights: [
+        'Explicit thumbs-up / thumbs-down feedback loop feeds memory refinement',
+        'Tailors tone between strict budgeting and growth-oriented wealth tracking',
+        'Autonomous refinement without manual configuration or complex prompts',
+      ],
+      samplePrompt: 'What should I do with my leftover ₹30,000 this month?',
+      sampleResponse:
+        'Based on your balanced investment preference, consider allocating ₹20,000 to Index Funds and ₹10,000 to your Emergency Fund.',
     },
   ];
 
@@ -137,52 +295,106 @@ export const Landing = () => {
 
   const features = [
     {
+      id: 'income-expense-tracking',
       icon: TrendingUp,
       title: 'Income & Expense Tracking',
       description:
         'Log cash flow instantly with detailed categories, notes, and tags in Indian Rupees (₹).',
       badge: 'Real-time',
-      color: 'emerald',
+      route: '/transactions',
+      actionText: 'Transactions',
+      details:
+        'Effortlessly record every rupee coming in and going out. Categorize transactions by Food, Housing, Utilities, Travel, and more, complete with notes, dates, and payment methods.',
+      highlights: [
+        'Instant transaction logging with real-time balance recalculation',
+        'Custom tagging and categorization in Indian Rupees (₹)',
+        'Full search and filter by amount, date range, and keyword',
+      ],
     },
     {
+      id: 'smart-financial-analytics',
       icon: BarChart3,
       title: 'Smart Financial Analytics',
       description:
         'Gain deep clarity with temporal bar graphs, cash flow trends, and net savings rate computations.',
       badge: 'Automated',
-      color: 'blue',
+      route: '/analytics',
+      actionText: 'Analytics',
+      details:
+        'Transform raw expense records into crystal-clear financial clarity. Inspect month-over-month trends, category allocation percentages, and your net savings trajectory.',
+      highlights: [
+        'Temporal income vs expense comparison charts',
+        'Dynamic savings rate calculations updated with every entry',
+        'Multi-month velocity trends to project your future runway',
+      ],
     },
     {
+      id: 'budget-management',
       icon: Sliders,
       title: 'Budget Management',
       description:
         'Set monthly limits for essential living expenses and receive visual progress alerts before overspending.',
       badge: 'Control',
-      color: 'purple',
+      route: '/budgets',
+      actionText: 'Budgets',
+      details:
+        'Set hard or soft budget thresholds across categories like Groceries, Entertainment, and Dining. Keep your lifestyle in sync with your financial goals before the month ends.',
+      highlights: [
+        'Category-specific spending ceilings with percentage progress bars',
+        'Clear threshold alerts (safe, warning, exceeded)',
+        'Integrated with FinTrack AI for automated budget adjustments',
+      ],
     },
     {
+      id: 'spending-visualization',
       icon: PieChart,
       title: 'Spending Visualization',
       description:
         'Interactive donut breakdowns and comparative charts show exactly where your money goes every month.',
       badge: 'Clarity',
-      color: 'amber',
+      route: '/analytics',
+      actionText: 'Charts',
+      details:
+        'Interactive visual representations that break down every rupee spent. Hover over category arcs to inspect exact totals, transaction counts, and proportion of total outflow.',
+      highlights: [
+        'Interactive donut charts with high-contrast monochrome aesthetic',
+        'Instant category drill-downs to inspect underlying transactions',
+        'Monthly and yearly comparative views to track lifestyle inflation',
+      ],
     },
     {
+      id: 'transaction-history-export',
       icon: FileSpreadsheet,
       title: 'Transaction History & Export',
       description:
         'Search, filter by date range or category, sort by highest amounts, and export clean CSV reports with one click.',
       badge: 'Export',
-      color: 'emerald',
+      route: '/transactions',
+      actionText: 'Export Records',
+      details:
+        'Your complete financial ledger at your fingertips. Search by payee, filter by date or payment method, sort by highest transaction amount, and export to CSV anytime.',
+      highlights: [
+        'One-click clean CSV export formatted for accounting & taxes',
+        'Advanced multi-parameter filtering (date, category, min/max amount)',
+        'Fast pagination and sorting with instantaneous client feedback',
+      ],
     },
     {
+      id: 'secure-personal-accounts',
       icon: ShieldCheck,
       title: 'Secure Personal Accounts',
       description:
         'Bank-grade architecture, isolated user databases, and ready-to-deploy JWT backend authentication.',
       badge: 'Encrypted',
-      color: 'blue',
+      route: '/bank-accounts',
+      actionText: 'Bank Accounts',
+      details:
+        'Your privacy is paramount. FinTrack encrypts passwords using bcryptjs, secures API calls with signed JWTs, and enforces strict row-level tenant isolation in PostgreSQL.',
+      highlights: [
+        'Isolated user tenant data: your records are never visible to others',
+        'Encrypted credentials and industry-standard JWT authorization tokens',
+        'Zero ad tracking or third-party data broker sharing',
+      ],
     },
   ];
 
@@ -625,7 +837,16 @@ export const Landing = () => {
               return (
                 <div
                   key={idx}
-                  className="bg-brand-card hover:bg-brand-cardHover border border-brand-border rounded-2xl p-6 transition-all duration-300 shadow-card hover:shadow-elevated hover:-translate-y-1 flex flex-col justify-between group"
+                  onClick={() => setSelectedCapability(cap)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedCapability(cap);
+                    }
+                  }}
+                  className="bg-brand-card hover:bg-brand-cardHover border border-brand-border rounded-2xl p-6 transition-all duration-300 shadow-card hover:shadow-elevated hover:-translate-y-1 flex flex-col justify-between group cursor-pointer focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
@@ -643,10 +864,17 @@ export const Landing = () => {
                       {cap.description}
                     </p>
                   </div>
-                  <div className="pt-4 mt-4 border-t border-brand-border/40 flex items-center text-xs font-semibold text-zinc-600 dark:text-zinc-400 group-hover:text-black dark:group-hover:text-white transition-colors">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedCapability(cap);
+                    }}
+                    className="pt-4 mt-4 border-t border-brand-border/40 flex items-center justify-between w-full text-xs font-semibold text-zinc-600 dark:text-zinc-400 group-hover:text-black dark:group-hover:text-white transition-colors"
+                  >
                     <span>Explore capability</span>
                     <ChevronRight className="w-3.5 h-3.5 ml-1 text-black dark:text-white group-hover:translate-x-1 transition-transform" />
-                  </div>
+                  </button>
                 </div>
               );
             })}
@@ -1059,7 +1287,16 @@ export const Landing = () => {
               return (
                 <div
                   key={idx}
-                  className="bg-brand-card hover:bg-brand-cardHover border border-brand-border rounded-2xl p-6 transition-all duration-300 shadow-card hover:shadow-elevated hover:-translate-y-1 flex flex-col justify-between group"
+                  onClick={() => setSelectedFeature(feature)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setSelectedFeature(feature);
+                    }
+                  }}
+                  className="bg-brand-card hover:bg-brand-cardHover border border-brand-border rounded-2xl p-6 transition-all duration-300 shadow-card hover:shadow-elevated hover:-translate-y-1 flex flex-col justify-between group cursor-pointer focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
@@ -1077,10 +1314,17 @@ export const Landing = () => {
                       {feature.description}
                     </p>
                   </div>
-                  <div className="pt-4 mt-4 border-t border-brand-border/40 flex items-center text-xs font-semibold text-zinc-600 dark:text-zinc-400 group-hover:text-black dark:group-hover:text-white transition-colors">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedFeature(feature);
+                    }}
+                    className="pt-4 mt-4 border-t border-brand-border/40 flex items-center justify-between w-full text-xs font-semibold text-zinc-600 dark:text-zinc-400 group-hover:text-black dark:group-hover:text-white transition-colors"
+                  >
                     <span>Learn more</span>
                     <ChevronRight className="w-3.5 h-3.5 ml-1 text-black dark:text-white group-hover:translate-x-1 transition-transform" />
-                  </div>
+                  </button>
                 </div>
               );
             })}
@@ -1354,6 +1598,239 @@ export const Landing = () => {
           </div>
         </div>
       </footer>
+
+      {/* ===================================================
+          AI CAPABILITY DEEP-DIVE MODAL
+      =================================================== */}
+      {selectedCapability && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-sm"
+          onClick={() => setSelectedCapability(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="relative w-full max-w-2xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-5 sm:p-6 border-b border-zinc-200 dark:border-zinc-800">
+              <div className="flex items-center gap-3.5">
+                <div className="w-11 h-11 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-black dark:text-white flex items-center justify-center">
+                  {React.createElement(selectedCapability.icon, { className: 'w-5 h-5 text-black dark:text-white' })}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-bold text-black dark:text-white tracking-tight">
+                      {selectedCapability.title}
+                    </h3>
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-black dark:text-white">
+                      {selectedCapability.tag}
+                    </span>
+                  </div>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">FinTrack AI Adaptive Intelligence</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedCapability(null)}
+                className="w-9 h-9 rounded-lg flex items-center justify-center text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:bg-zinc-900 transition-colors"
+                aria-label="Close dialog"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-5 sm:p-6 overflow-y-auto space-y-5 text-sm text-zinc-600 dark:text-zinc-300">
+              <div>
+                <h4 className="text-xs font-bold uppercase tracking-wider text-black dark:text-white mb-2">
+                  Capability Overview
+                </h4>
+                <p className="leading-relaxed">
+                  {selectedCapability.details || selectedCapability.description}
+                </p>
+              </div>
+
+              {/* Highlights */}
+              {selectedCapability.highlights && selectedCapability.highlights.length > 0 && (
+                <div className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/60">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-black dark:text-white mb-2.5">
+                    Key Features & Guardrails
+                  </h4>
+                  <ul className="space-y-2">
+                    {selectedCapability.highlights.map((h, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-xs text-zinc-600 dark:text-zinc-300">
+                        <CheckCircle2 className="w-4 h-4 text-black dark:text-white shrink-0 mt-0.5" />
+                        <span>{h}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Sample Demonstration */}
+              {selectedCapability.samplePrompt && (
+                <div className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 dark:text-zinc-400 block mb-2">
+                    Sample Interaction
+                  </span>
+                  <div className="space-y-2.5 text-xs">
+                    <div className="flex items-start gap-2">
+                      <span className="font-bold text-black dark:text-white shrink-0">You:</span>
+                      <span className="text-zinc-700 dark:text-zinc-300 italic">"{selectedCapability.samplePrompt}"</span>
+                    </div>
+                    <div className="flex items-start gap-2 pt-2 border-t border-zinc-200 dark:border-zinc-800/80">
+                      <span className="font-bold text-black dark:text-white shrink-0">AI:</span>
+                      <span className="text-zinc-700 dark:text-zinc-300">{selectedCapability.sampleResponse}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 sm:p-5 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <button
+                type="button"
+                onClick={() => handleTryDemo(selectedCapability.scenarioKey)}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-black dark:text-white bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 transition-colors"
+              >
+                <Sparkles className="w-4 h-4 text-black dark:text-white" />
+                <span>Try in Live Demo</span>
+              </button>
+
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <button
+                  type="button"
+                  onClick={() => setSelectedCapability(null)}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  onClick={handleLaunchAI}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-black hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 transition-colors shadow-sm"
+                >
+                  <span>{isAuthenticated ? 'Open in FinTrack AI' : 'Get Started Free'}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ===================================================
+          CORE TOOLKIT FEATURE DEEP-DIVE MODAL
+      =================================================== */}
+      {selectedFeature && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/70 backdrop-blur-sm"
+          onClick={() => setSelectedFeature(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="relative w-full max-w-2xl bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-5 sm:p-6 border-b border-zinc-200 dark:border-zinc-800">
+              <div className="flex items-center gap-3.5">
+                <div className="w-11 h-11 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-black dark:text-white flex items-center justify-center">
+                  {React.createElement(selectedFeature.icon, { className: 'w-5 h-5 text-black dark:text-white' })}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-bold text-black dark:text-white tracking-tight">
+                      {selectedFeature.title}
+                    </h3>
+                    <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-black dark:text-white">
+                      {selectedFeature.badge}
+                    </span>
+                  </div>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">FinTrack PRO Core Platform</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedFeature(null)}
+                className="w-9 h-9 rounded-lg flex items-center justify-center text-zinc-500 hover:text-black dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:bg-zinc-900 transition-colors"
+                aria-label="Close dialog"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-5 sm:p-6 overflow-y-auto space-y-5 text-sm text-zinc-600 dark:text-zinc-300">
+              <div>
+                <h4 className="text-xs font-bold uppercase tracking-wider text-black dark:text-white mb-2">
+                  Module Capabilities
+                </h4>
+                <p className="leading-relaxed">
+                  {selectedFeature.details || selectedFeature.description}
+                </p>
+              </div>
+
+              {/* Highlights */}
+              {selectedFeature.highlights && selectedFeature.highlights.length > 0 && (
+                <div className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/60">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-black dark:text-white mb-2.5">
+                    What You Can Do
+                  </h4>
+                  <ul className="space-y-2">
+                    {selectedFeature.highlights.map((h, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-xs text-zinc-600 dark:text-zinc-300">
+                        <CheckCircle2 className="w-4 h-4 text-black dark:text-white shrink-0 mt-0.5" />
+                        <span>{h}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Quick specs / security notice */}
+              <div className="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/40 flex items-center justify-between text-xs">
+                <div>
+                  <span className="font-bold text-black dark:text-white block">Status</span>
+                  <span className="text-zinc-500 dark:text-zinc-400">Production ready • Multi-tenant Supabase PostgreSQL</span>
+                </div>
+                <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-1 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-black dark:text-white">
+                  Active
+                </span>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-4 sm:p-5 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <div className="text-xs text-zinc-500 dark:text-zinc-400 hidden sm:block">
+                {isAuthenticated ? 'Authenticated session active' : 'Free account • No credit card required'}
+              </div>
+
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <button
+                  type="button"
+                  onClick={() => setSelectedFeature(null)}
+                  className="w-full sm:w-auto px-4 py-2.5 rounded-xl text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white transition-colors"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleFeatureNavigate(selectedFeature)}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-black hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 transition-colors shadow-sm"
+                >
+                  <span>{isAuthenticated ? `Open ${selectedFeature.actionText || 'Feature'}` : 'Get Started Free'}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

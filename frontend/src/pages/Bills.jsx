@@ -226,7 +226,7 @@ export const Bills = () => {
 
         <button
           onClick={openAddModal}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-black hover:bg-zinc-800 text-white text-xs font-semibold shadow-sm border border-zinc-800 transition-all"
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-black hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 text-white text-xs font-semibold shadow-sm border border-black dark:border-white transition-all"
         >
           <Plus className="w-4 h-4" />
           <span>Add New Bill</span>
@@ -314,12 +314,12 @@ export const Bills = () => {
           />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           {/* Category Filter */}
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-3 py-2 rounded-xl bg-brand-bg border border-brand-border text-xs text-brand-text focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
+            className="flex-1 sm:flex-initial px-3 py-2 rounded-xl bg-brand-bg border border-brand-border text-xs text-brand-text focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
           >
             <option value="all">All Categories</option>
             {BILL_CATEGORIES.map((cat) => (
@@ -333,7 +333,7 @@ export const Bills = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2 rounded-xl bg-brand-bg border border-brand-border text-xs text-brand-text focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
+            className="flex-1 sm:flex-initial px-3 py-2 rounded-xl bg-brand-bg border border-brand-border text-xs text-brand-text focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white"
           >
             <option value="all">All Statuses</option>
             <option value="pending">Pending</option>
@@ -400,7 +400,7 @@ export const Bills = () => {
                     <span
                       className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${
                         isPaid
-                          ? 'bg-black text-white dark:bg-zinc-800 dark:text-zinc-200 border-zinc-800 dark:border-zinc-700'
+                          ? 'bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white'
                           : isOverdue
                           ? 'bg-rose-500/10 text-rose-500 border-rose-500/20'
                           : 'bg-amber-500/10 text-amber-500 border-amber-500/20'
@@ -445,7 +445,7 @@ export const Bills = () => {
                   {!isPaid ? (
                     <button
                       onClick={() => setPayTarget(bill)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black hover:bg-zinc-800 text-white font-semibold text-[11px] shadow-sm border border-zinc-800 transition-colors"
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 text-white font-semibold text-[11px] shadow-sm border border-black dark:border-white transition-colors"
                     >
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>Mark as Paid</span>
@@ -630,7 +630,7 @@ export const Bills = () => {
             <button
               type="submit"
               disabled={submitting}
-              className="px-5 py-2.5 rounded-xl bg-black hover:bg-zinc-800 disabled:opacity-50 text-white text-xs font-semibold shadow-sm border border-zinc-800 transition-all"
+              className="px-5 py-2.5 rounded-xl bg-black hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 disabled:opacity-50 text-white text-xs font-semibold shadow-sm border border-black dark:border-white transition-all"
             >
               {submitting ? 'Saving...' : editingBill ? 'Update Bill' : 'Add Bill'}
             </button>
@@ -676,7 +676,7 @@ export const Bills = () => {
               <button
                 type="button"
                 onClick={handleMarkPaid}
-                className="px-5 py-2 rounded-xl bg-black hover:bg-zinc-800 text-white text-xs font-semibold shadow-sm border border-zinc-800"
+                className="px-5 py-2 rounded-xl bg-black hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 text-white text-xs font-semibold shadow-sm border border-black dark:border-white"
               >
                 Confirm Payment
               </button>

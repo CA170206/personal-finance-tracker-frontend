@@ -16,6 +16,7 @@ import {
   Wallet,
   Sparkles,
   BrainCircuit,
+  X,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
@@ -61,7 +62,7 @@ export const Sidebar = ({
   const navLinkClass = ({ isActive }) =>
     `group flex items-center gap-3 px-3.5 py-3 rounded-xl font-medium text-sm transition-all duration-200 ${
       isActive
-        ? 'bg-black text-white dark:bg-zinc-800 dark:text-white shadow-sm font-semibold border border-zinc-800 dark:border-zinc-700/80'
+        ? 'bg-black text-white dark:bg-white dark:text-black shadow-sm font-semibold border border-black dark:border-white'
         : 'text-brand-muted hover:text-brand-text hover:bg-brand-elevated'
     }`;
 
@@ -70,14 +71,14 @@ export const Sidebar = ({
       {/* Brand Header */}
       <div className="flex items-center justify-between px-5 h-20 border-b border-brand-border">
         <div className="flex items-center gap-3 overflow-hidden">
-          <div className="w-10 h-10 rounded-xl bg-black dark:bg-zinc-900 border border-zinc-800 dark:border-zinc-700 flex items-center justify-center flex-shrink-0 shadow-sm">
-            <Wallet className="w-5 h-5 text-white" />
+          <div className="w-10 h-10 rounded-xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white flex items-center justify-center flex-shrink-0 shadow-sm">
+            <Wallet className="w-5 h-5 text-current" />
           </div>
           {!isCollapsed && (
             <div className="flex flex-col transition-opacity duration-200">
               <span className="font-extrabold text-lg tracking-tight text-brand-text flex items-center gap-1.5">
                 FinTrack
-                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded-full bg-black text-white dark:bg-zinc-800 dark:text-zinc-200 border border-zinc-800 dark:border-zinc-700">
+                <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded-full bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white">
                   PRO
                 </span>
               </span>
@@ -93,6 +94,16 @@ export const Sidebar = ({
           title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
           {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+        </button>
+
+        {/* Mobile Close Drawer Button */}
+        <button
+          onClick={() => setMobileOpen(false)}
+          className="lg:hidden flex items-center justify-center w-8 h-8 rounded-lg bg-brand-card hover:bg-brand-elevated text-brand-muted hover:text-brand-text border border-brand-border transition-colors"
+          title="Close navigation menu"
+          aria-label="Close navigation menu"
+        >
+          <X className="w-4 h-4" />
         </button>
       </div>
 
@@ -128,7 +139,7 @@ export const Sidebar = ({
                     </span>
                   )}
                   {item.name === 'Notifications' && unreadCount > 0 && (
-                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-black text-white dark:bg-zinc-800 dark:text-zinc-200 border border-zinc-800 dark:border-zinc-700">
+                    <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white">
                       {unreadCount}
                     </span>
                   )}
@@ -156,7 +167,7 @@ export const Sidebar = ({
       <div className="p-3 border-t border-brand-border space-y-2">
         {!isCollapsed && user && (
           <div className="flex items-center gap-3 px-3 py-2 rounded-xl bg-brand-card/40 border border-brand-border/40">
-            <div className="w-9 h-9 rounded-full bg-black dark:bg-zinc-800 border border-zinc-800 dark:border-zinc-700 flex items-center justify-center text-white font-bold text-sm shadow-sm flex-shrink-0">
+            <div className="w-9 h-9 rounded-full bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white flex items-center justify-center font-bold text-sm shadow-sm flex-shrink-0">
               {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
             </div>
             <div className="min-w-0 flex-1">

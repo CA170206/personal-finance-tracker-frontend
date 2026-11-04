@@ -155,14 +155,14 @@ export const Budgets = () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3 flex-wrap">
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           {/* Period Selector Tabs */}
-          <div className="flex items-center gap-1 p-1 bg-brand-card border border-brand-border rounded-xl">
+          <div className="flex items-center gap-1 p-1 bg-brand-card border border-brand-border rounded-xl max-w-full overflow-x-auto no-scrollbar">
             <button
               onClick={() => setSelectedPeriod('current')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                 selectedPeriod === 'current'
-                  ? 'bg-black text-white dark:bg-zinc-800 dark:text-white shadow-sm border border-zinc-800'
+                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-sm border border-black dark:border-white'
                   : 'text-brand-muted hover:text-brand-text'
               }`}
             >
@@ -170,9 +170,9 @@ export const Budgets = () => {
             </button>
             <button
               onClick={() => setSelectedPeriod('previous')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                 selectedPeriod === 'previous'
-                  ? 'bg-black text-white dark:bg-zinc-800 dark:text-white shadow-sm border border-zinc-800'
+                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-sm border border-black dark:border-white'
                   : 'text-brand-muted hover:text-brand-text'
               }`}
             >
@@ -180,9 +180,9 @@ export const Budgets = () => {
             </button>
             <button
               onClick={() => setSelectedPeriod('all')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                 selectedPeriod === 'all'
-                  ? 'bg-black text-white dark:bg-zinc-800 dark:text-white shadow-sm border border-zinc-800'
+                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-sm border border-black dark:border-white'
                   : 'text-brand-muted hover:text-brand-text'
               }`}
             >
@@ -192,7 +192,7 @@ export const Budgets = () => {
 
           <button
             onClick={handleOpenAdd}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-sm text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 active:scale-95 shadow-sm transition-all"
+            className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm text-white bg-black hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 border border-black dark:border-white active:scale-95 shadow-sm transition-all flex-shrink-0"
           >
             <Plus className="w-4 h-4" />
             <span>New Budget</span>
@@ -286,7 +286,7 @@ export const Budgets = () => {
             <p className="text-sm text-brand-muted mb-4">No category budgets created yet.</p>
             <button
               onClick={handleOpenAdd}
-              className="px-4 py-2 bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-white text-xs font-semibold rounded-xl border border-zinc-800 shadow-sm"
+              className="px-4 py-2 bg-black hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 text-white text-xs font-semibold rounded-xl border border-black dark:border-white shadow-sm"
             >
               Add First Category Budget
             </button>
@@ -354,7 +354,7 @@ export const Budgets = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-5 py-2 rounded-xl text-sm font-semibold text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 shadow-sm"
+              className="px-5 py-2 rounded-xl text-sm font-semibold text-white bg-black hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 border border-black dark:border-white shadow-sm"
             >
               Update Budget
             </button>

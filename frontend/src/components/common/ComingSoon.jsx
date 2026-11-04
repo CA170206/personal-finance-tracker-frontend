@@ -27,7 +27,7 @@ export const ComingSoon = ({
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Dashboard</span>
         </Link>
-        <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-full bg-black text-white dark:bg-zinc-800 dark:text-zinc-200 border border-zinc-800 shadow-sm">
+        <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-full bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white shadow-sm">
           <Clock className="w-3 h-3" />
           <span>{badge}</span>
         </span>
@@ -41,7 +41,7 @@ export const ComingSoon = ({
         <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center">
           {/* Centered Top Icon Container with ample vertical spacing */}
           <div className="mb-6 flex items-center justify-center">
-            <div className="w-16 h-16 rounded-2xl bg-black dark:bg-zinc-900 border border-zinc-800 text-white shadow-sm flex items-center justify-center">
+            <div className="w-16 h-16 rounded-2xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white shadow-sm flex items-center justify-center">
               {Icon && <Icon className="w-8 h-8" />}
             </div>
           </div>
@@ -68,7 +68,7 @@ export const ComingSoon = ({
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
               to="/dashboard"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 active:scale-95 shadow-sm transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm text-white bg-black hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 border border-black dark:border-white active:scale-95 shadow-sm transition-all"
             >
               <span>Return to Dashboard</span>
               <ArrowRight className="w-4 h-4" />

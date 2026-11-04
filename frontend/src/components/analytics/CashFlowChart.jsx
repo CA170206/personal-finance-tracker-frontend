@@ -38,8 +38,8 @@ const CustomTooltip = ({ active, payload, label }) => {
 export const CashFlowChart = ({ data = [] }) => {
   const { isDark } = useTheme();
 
-  const gridColor = isDark ? '#232D42' : '#E2E8F0';
-  const textColor = isDark ? '#94A3B8' : '#64748B';
+  const gridColor = isDark ? '#27272A' : '#E2E8F0';
+  const textColor = isDark ? '#A1A1AA' : '#64748B';
 
   return (
     <ChartCard

@@ -82,10 +82,10 @@ export const StatCard = ({
           <div
             className={`inline-flex items-center gap-0.5 font-semibold px-1.5 py-0.5 rounded-md ${
               isZero
-                ? 'bg-slate-800 text-slate-400'
+                ? 'bg-black/5 dark:bg-white/10 text-brand-subtle'
                 : isGood
-                ? 'bg-emerald-500/15 text-emerald-400'
-                : 'bg-rose-500/15 text-rose-400'
+                ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                : 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
             }`}
           >
             {isZero ? (

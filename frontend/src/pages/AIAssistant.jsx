@@ -34,7 +34,9 @@ export const AIAssistant = () => {
   const [loading, setLoading] = useState(false);
   const [fetchingHistory, setFetchingHistory] = useState(false);
   const [suggestedQuestions, setSuggestedQuestions] = useState([]);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth >= 1024 : false
+  );
 
   // Memory inspection modal
   const [memoryModalOpen, setMemoryModalOpen] = useState(false);
@@ -90,6 +92,9 @@ export const AIAssistant = () => {
 
   const selectConversation = async (convoId) => {
     setActiveConversationId(convoId);
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+      setSidebarOpen(false);
+    }
     setFetchingHistory(true);
     try {
       const res = await aiService.getConversationHistory(convoId);
@@ -105,6 +110,9 @@ export const AIAssistant = () => {
     setActiveConversationId(null);
     setMessages([]);
     setInputMessage('');
+    if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+      setSidebarOpen(false);
+    }
     if (inputRef.current) inputRef.current.focus();
   };
 
@@ -238,6 +246,60 @@ export const AIAssistant = () => {
     }
   };
 
+  // Extract questions that may be embedded in message content as markdown bullets
+  const extractQuestionsAndCleanContent = (rawContent, existingSuggestions = []) => {
+    if (!rawContent) return { cleanedContent: '', questions: existingSuggestions || [] };
+
+    const lines = rawContent.split('\n');
+    const cleanedLines = [];
+    const extracted = [];
+    let inQuestionSection = false;
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      // Check if this line introduces bullet questions
+      if (
+        trimmed.toLowerCase().includes('you can ask me specific questions such as') ||
+        trimmed.toLowerCase().includes('here are some questions you can ask') ||
+        trimmed.toLowerCase().includes('click any option below to view detailed breakdown')
+      ) {
+        inQuestionSection = true;
+        continue;
+      }
+
+      // Check for bullet lines with questions
+      if (inQuestionSection && (trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('*'))) {
+        const questionMatch = trimmed.replace(/^[-•*]\s*/, '').replace(/^["'*]+|["'*]+$/g, '').trim();
+        if (questionMatch.length > 3) {
+          extracted.push(questionMatch);
+        }
+        continue;
+      } else if (inQuestionSection && trimmed === '') {
+        continue;
+      } else {
+        inQuestionSection = false;
+      }
+
+      // Also check general bullet lines that look like questions in quotes: e.g. • *"Where did most of my money go?"*
+      if (trimmed.match(/^[-•*]\s*["'*].*\?["'*]$/)) {
+        const questionMatch = trimmed.replace(/^[-•*]\s*/, '').replace(/^["'*]+|["'*]+$/g, '').trim();
+        if (questionMatch.length > 3) {
+          extracted.push(questionMatch);
+          continue;
+        }
+      }
+
+      cleanedLines.push(line);
+    }
+
+    // Combine extracted questions with existingSuggestions, removing duplicates
+    const combined = Array.from(new Set([...(existingSuggestions || []), ...extracted])).filter(Boolean);
+    return {
+      cleanedContent: cleanedLines.join('\n').trim(),
+      questions: combined,
+    };
+  };
+
   // Simple Markdown renderer for bolding, bullet points, and headers
   const renderFormattedContent = (content) => {
     if (!content) return null;
@@ -288,14 +350,29 @@ export const AIAssistant = () => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-5rem)] overflow-hidden bg-brand-bg text-brand-text">
+    <div className="flex h-[calc(100dvh-5rem)] min-h-0 overflow-hidden bg-brand-bg text-brand-text relative">
+      {/* Mobile Backdrop Overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-xs lg:hidden transition-opacity"
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
       {/* ===================================================
           1. CONVERSATION SESSIONS SIDEBAR
       =================================================== */}
       <aside
-        className={`${
-          sidebarOpen ? 'w-72 sm:w-80' : 'w-0'
-        } flex-shrink-0 flex flex-col border-r border-brand-border bg-brand-sidebar transition-all duration-300 overflow-hidden`}
+        className={`
+          fixed inset-y-0 left-0 z-50 w-72 sm:w-80 lg:static lg:z-auto
+          flex flex-col border-r border-brand-border bg-brand-sidebar transition-all duration-300
+          ${
+            sidebarOpen
+              ? 'translate-x-0 lg:w-72 sm:lg:w-80 shadow-2xl lg:shadow-none'
+              : '-translate-x-full lg:translate-x-0 lg:w-0 overflow-hidden pointer-events-none lg:pointer-events-auto'
+          }
+        `}
       >
         <div className="p-4 border-b border-brand-border flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -307,26 +384,43 @@ export const AIAssistant = () => {
               <p className="text-[10px] text-brand-subtle">FinTrack AI Sessions</p>
             </div>
           </div>
-          <button
-            onClick={handleStartNewConversation}
-            className="p-2 rounded-xl bg-brand-card hover:bg-brand-elevated border border-brand-border text-brand-text transition-colors shadow-sm"
-            title="Start new conversation"
-          >
-            <Plus className="w-4 h-4" />
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={handleStartNewConversation}
+              className="p-2 rounded-xl bg-brand-card hover:bg-brand-elevated border border-brand-border text-brand-text transition-colors shadow-sm"
+              title="Start new conversation"
+              aria-label="Start new conversation"
+            >
+              <Plus className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden p-2 rounded-xl bg-brand-card hover:bg-brand-elevated border border-brand-border text-brand-muted hover:text-brand-text transition-colors"
+              title="Close discussions"
+              aria-label="Close discussions panel"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* Quick Action Buttons */}
         <div className="p-3 border-b border-brand-border/60 flex items-center gap-2">
           <button
-            onClick={handleScanAlerts}
+            onClick={() => {
+              if (typeof window !== 'undefined' && window.innerWidth < 1024) setSidebarOpen(false);
+              handleScanAlerts();
+            }}
             className="flex-1 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold bg-brand-card hover:bg-brand-elevated border border-brand-border text-brand-text flex items-center justify-center gap-1.5 transition-colors shadow-sm"
           >
             <Bell className="w-3.5 h-3.5" />
             <span>Scan Alerts</span>
           </button>
           <button
-            onClick={handleOpenMemory}
+            onClick={() => {
+              if (typeof window !== 'undefined' && window.innerWidth < 1024) setSidebarOpen(false);
+              handleOpenMemory();
+            }}
             className="flex-1 px-2.5 py-1.5 rounded-xl text-[11px] font-semibold bg-brand-card hover:bg-brand-elevated border border-brand-border text-brand-text flex items-center justify-center gap-1.5 transition-colors shadow-sm"
           >
             <Layers className="w-3.5 h-3.5" />
@@ -351,7 +445,7 @@ export const AIAssistant = () => {
                   onClick={() => selectConversation(conv.id)}
                   className={`group flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium cursor-pointer transition-all border ${
                     isActive
-                      ? 'bg-black text-white dark:bg-zinc-800 dark:text-white border-zinc-800 dark:border-zinc-700 shadow-sm'
+                      ? 'bg-black text-white dark:bg-white dark:text-black border-black dark:border-white shadow-sm'
                       : 'text-brand-muted hover:text-brand-text hover:bg-brand-elevated border-transparent'
                   }`}
                 >
@@ -376,39 +470,41 @@ export const AIAssistant = () => {
       {/* ===================================================
           2. MAIN CHAT AREA
       =================================================== */}
-      <main className="flex-1 flex flex-col h-full overflow-hidden bg-brand-bg relative">
+      <main className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-brand-bg relative">
         {/* Header Bar */}
-        <header className="h-16 border-b border-brand-border bg-brand-card/40 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between flex-shrink-0">
-          <div className="flex items-center gap-3">
+        <header className="h-16 border-b border-brand-border bg-brand-card/40 backdrop-blur-md px-3 sm:px-6 flex items-center justify-between flex-shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 rounded-xl bg-brand-card hover:bg-brand-elevated border border-brand-border text-brand-muted hover:text-brand-text transition-colors"
+              className="p-2 rounded-xl bg-brand-card hover:bg-brand-elevated border border-brand-border text-brand-muted hover:text-brand-text transition-colors flex-shrink-0"
               title="Toggle discussion history"
+              aria-label="Toggle discussion history"
             >
               <Layers className="w-4 h-4" />
             </button>
-            <div>
+            <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <h1 className="font-extrabold text-sm sm:text-base text-brand-text tracking-tight flex items-center gap-1.5">
+                <h1 className="font-extrabold text-sm sm:text-base text-brand-text tracking-tight flex items-center gap-1.5 truncate">
                   FinTrack AI
                   <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
                     Live Adaptive
                   </span>
                 </h1>
               </div>
-              <p className="text-[11px] text-brand-subtle hidden sm:block">
+              <p className="text-[11px] text-brand-subtle hidden sm:block truncate">
                 Personalized Financial Intelligence • Dynamic Tool Calling • Zero Data Hallucination
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-xs">
+          <div className="flex items-center gap-2 text-xs flex-shrink-0">
             <button
               onClick={handleStartNewConversation}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-semibold bg-brand-card hover:bg-brand-elevated border border-brand-border text-brand-text shadow-sm transition-colors text-xs"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-semibold bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 border border-black dark:border-white shadow-sm transition-colors text-xs"
+              title="Start new conversation"
             >
               <Plus className="w-3.5 h-3.5" />
-              <span>New Chat</span>
+              <span className="hidden sm:inline">New Chat</span>
             </button>
           </div>
         </header>
@@ -417,7 +513,7 @@ export const AIAssistant = () => {
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
           {messages.length === 0 && !fetchingHistory && (
             <div className="max-w-2xl mx-auto py-8 sm:py-14 text-center animate-fadeIn">
-              <div className="w-14 h-14 rounded-2xl bg-black dark:bg-zinc-900 border border-zinc-800 dark:border-zinc-700 text-white flex items-center justify-center mx-auto mb-4 shadow-elevated">
+              <div className="w-14 h-14 rounded-2xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white flex items-center justify-center mx-auto mb-4 shadow-elevated">
                 <Sparkles className="w-7 h-7" />
               </div>
               <h2 className="text-xl sm:text-2xl font-black text-brand-text tracking-tight mb-2">
@@ -458,26 +554,30 @@ export const AIAssistant = () => {
           {/* Render Messages */}
           {messages.map((msg, index) => {
             const isUser = msg.role === 'user';
+            const { cleanedContent, questions } = isUser
+              ? { cleanedContent: msg.content, questions: [] }
+              : extractQuestionsAndCleanContent(msg.content, msg.suggestedQuestions);
+
             return (
               <div
                 key={msg.id || index}
-                className={`flex gap-3 max-w-3xl ${isUser ? 'ml-auto flex-row-reverse' : 'mr-auto'}`}
+                className={`flex gap-2.5 sm:gap-3 max-w-3xl w-full ${isUser ? 'ml-auto flex-row-reverse' : 'mr-auto'}`}
               >
                 {/* Avatar */}
                 <div
-                  className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 text-xs font-bold shadow-sm ${
+                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center flex-shrink-0 text-xs font-bold shadow-sm ${
                     isUser
-                      ? 'bg-black text-white dark:bg-zinc-800'
-                      : 'bg-zinc-100 text-black dark:bg-zinc-900 dark:text-white border border-brand-border'
+                      ? 'bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white'
+                      : 'bg-brand-elevated text-black dark:text-white border border-brand-border'
                   }`}
                 >
-                  {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                  {isUser ? <User className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> : <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
                 </div>
 
                 {/* Message Body */}
-                <div className={`flex flex-col ${isUser ? 'items-end' : 'items-start'} max-w-[85%] sm:max-w-[78%]`}>
+                <div className={`flex flex-col ${isUser ? 'items-end' : 'items-start'} max-w-[90%] sm:max-w-[80%] min-w-0`}>
                   <div
-                    className={`p-4 rounded-2xl shadow-sm ${
+                    className={`p-3.5 sm:p-4 rounded-2xl shadow-sm min-w-0 break-words w-full overflow-hidden ${
                       isUser
                         ? 'bg-black text-white dark:bg-white dark:text-black rounded-tr-sm'
                         : 'bg-brand-card border border-brand-border text-brand-text rounded-tl-sm'
@@ -486,7 +586,7 @@ export const AIAssistant = () => {
                     {isUser ? (
                       <p className="text-xs sm:text-sm whitespace-pre-wrap">{msg.content}</p>
                     ) : (
-                      renderFormattedContent(msg.content)
+                      renderFormattedContent(cleanedContent)
                     )}
 
                     {/* Interactive Insight Cards */}
@@ -506,47 +606,51 @@ export const AIAssistant = () => {
                         ))}
                       </div>
                     )}
-                  </div>
 
-                  {/* Assistant Footer: Feedback & Suggestions */}
-                  {!isUser && !msg.isError && (
-                    <div className="mt-2 space-y-2 w-full">
-                      {/* Feedback buttons */}
-                      <div className="flex items-center gap-2 text-[11px] text-brand-subtle pl-1">
-                        <button
-                          onClick={() => handleOpenFeedback(msg.id, 'helpful')}
-                          className="hover:text-emerald-500 transition-colors flex items-center gap-1 p-1 rounded hover:bg-brand-card"
-                          title="Helpful recommendation"
-                        >
-                          <ThumbsUp className="w-3.5 h-3.5" />
-                          <span>Helpful</span>
-                        </button>
-                        <span>•</span>
-                        <button
-                          onClick={() => handleOpenFeedback(msg.id, 'unhelpful')}
-                          className="hover:text-rose-500 transition-colors flex items-center gap-1 p-1 rounded hover:bg-brand-card"
-                          title="Unhelpful or inaccurate"
-                        >
-                          <ThumbsDown className="w-3.5 h-3.5" />
-                          <span>Not helpful</span>
-                        </button>
-                      </div>
-
-                      {/* Contextual follow-up chips */}
-                      {msg.suggestedQuestions && msg.suggestedQuestions.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 pt-1">
-                          {msg.suggestedQuestions.map((sug, i) => (
+                    {/* Direct Action Prompt Buttons */}
+                    {!isUser && !msg.isError && questions && questions.length > 0 && (
+                      <div className="mt-3.5 pt-3 border-t border-brand-border/60">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-brand-subtle block mb-2 flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-brand-text" />
+                          Direct Actions (Click to get instant answer):
+                        </span>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          {questions.map((q, qIdx) => (
                             <button
-                              key={i}
-                              onClick={() => handleSendMessage(sug)}
-                              className="px-2.5 py-1 rounded-full text-[11px] font-medium bg-brand-elevated hover:bg-brand-card text-brand-muted hover:text-brand-text border border-brand-border transition-colors flex items-center gap-1 shadow-sm"
+                              key={qIdx}
+                              onClick={() => handleSendMessage(q)}
+                              className="p-2.5 rounded-xl bg-brand-elevated hover:bg-brand-card border border-brand-border hover:border-black dark:hover:border-white text-xs font-semibold text-brand-text transition-all shadow-sm flex items-center justify-between text-left group min-w-0 w-full"
+                              title={`Ask: "${q}"`}
                             >
-                              <span>{sug}</span>
-                              <ChevronRight className="w-3 h-3 text-brand-subtle" />
+                              <span className="truncate pr-2">{q}</span>
+                              <ChevronRight className="w-3.5 h-3.5 text-brand-subtle group-hover:translate-x-0.5 group-hover:text-brand-text transition-all flex-shrink-0" />
                             </button>
                           ))}
                         </div>
-                      )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Assistant Footer: Feedback */}
+                  {!isUser && !msg.isError && (
+                    <div className="mt-1.5 flex items-center gap-2 text-[11px] text-brand-subtle pl-1">
+                      <button
+                        onClick={() => handleOpenFeedback(msg.id, 'helpful')}
+                        className="hover:text-emerald-500 transition-colors flex items-center gap-1 p-1 rounded hover:bg-brand-card"
+                        title="Helpful recommendation"
+                      >
+                        <ThumbsUp className="w-3.5 h-3.5" />
+                        <span>Helpful</span>
+                      </button>
+                      <span>•</span>
+                      <button
+                        onClick={() => handleOpenFeedback(msg.id, 'unhelpful')}
+                        className="hover:text-rose-500 transition-colors flex items-center gap-1 p-1 rounded hover:bg-brand-card"
+                        title="Unhelpful or inaccurate"
+                      >
+                        <ThumbsDown className="w-3.5 h-3.5" />
+                        <span>Not helpful</span>
+                      </button>
                     </div>
                   )}
                 </div>
@@ -619,7 +723,7 @@ export const AIAssistant = () => {
                 onKeyDown={handleKeyDown}
                 placeholder="Ask FinTrack AI (e.g. 'Can I afford ₹12,000?', 'Food spend this month', 'Create food budget of ₹5,000')..."
                 disabled={loading}
-                className="w-full pl-4 pr-12 py-3 rounded-xl bg-brand-elevated border border-brand-border focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white text-xs sm:text-sm text-brand-text placeholder:text-brand-subtle transition-all"
+                className="w-full pl-3.5 sm:pl-4 pr-11 sm:pr-12 py-2.5 sm:py-3 rounded-xl bg-brand-elevated border border-brand-border focus:outline-none focus:ring-1 focus:ring-black dark:focus:ring-white text-xs sm:text-sm text-brand-text placeholder:text-brand-subtle transition-all"
               />
               <button
                 onClick={() => handleSendMessage()}
@@ -630,7 +734,7 @@ export const AIAssistant = () => {
                 <Send className="w-4 h-4" />
               </button>
             </div>
-            <p className="text-[10px] text-center text-brand-subtle mt-2">
+            <p className="text-[10px] text-center text-brand-subtle mt-2 px-1">
               FinTrack AI uses deterministic calculations for balances and budgets. Actions require explicit confirmation.
             </p>
           </div>
@@ -641,8 +745,8 @@ export const AIAssistant = () => {
           4. AI MEMORY MODAL
       =================================================== */}
       {memoryModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
-          <div className="bg-brand-card border border-brand-border rounded-3xl p-6 max-w-lg w-full shadow-2xl relative">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-fadeIn">
+          <div className="bg-brand-card border border-brand-border rounded-2xl sm:rounded-3xl p-4 sm:p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
             <button
               onClick={() => setMemoryModalOpen(false)}
               className="absolute top-4 right-4 p-2 text-brand-muted hover:text-brand-text"

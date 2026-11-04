@@ -357,8 +357,8 @@ export const CSVImportCenter = ({
             </div>
 
             {/* Editable Preview Table */}
-            <div className="border border-brand-border rounded-xl overflow-hidden max-h-72 overflow-y-auto">
-              <table className="w-full text-left text-xs">
+            <div className="border border-brand-border rounded-xl max-h-72 overflow-x-auto overflow-y-auto">
+              <table className="w-full text-left text-xs min-w-[550px]">
                 <thead className="bg-brand-elevated text-brand-muted uppercase font-semibold text-[10px] sticky top-0 z-10">
                   <tr>
                     <th className="py-2.5 px-3">Date</th>
@@ -484,7 +484,7 @@ export const CSVImportCenter = ({
         {/* STEP 3: RESULT */}
         {step === 'result' && importResult && (
           <div className="space-y-6 py-4 text-center">
-            <div className="w-14 h-14 rounded-2xl bg-black dark:bg-zinc-800 border border-zinc-800 text-white flex items-center justify-center mx-auto shadow-sm">
+            <div className="w-14 h-14 rounded-2xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white flex items-center justify-center mx-auto shadow-sm">
               <CheckCircle2 className="w-8 h-8" />
             </div>
 
@@ -528,7 +528,7 @@ export const CSVImportCenter = ({
               <button
                 type="button"
                 onClick={handleClose}
-                className="px-6 py-2.5 rounded-xl bg-black hover:bg-zinc-800 text-white text-xs font-semibold shadow-sm border border-zinc-800 transition-all"
+                className="px-6 py-2.5 rounded-xl bg-black hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 text-white text-xs font-semibold shadow-sm border border-black dark:border-white transition-all"
               >
                 Done
               </button>

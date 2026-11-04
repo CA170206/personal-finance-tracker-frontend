@@ -87,13 +87,13 @@ export const Settings = () => {
       {/* Profile Overview Card */}
       <div className="bg-brand-card border border-brand-border rounded-2xl p-6 sm:p-7 shadow-card">
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-5">
-          <div className="w-20 h-20 rounded-2xl bg-black dark:bg-zinc-800 border border-zinc-800 flex items-center justify-center text-white text-3xl font-extrabold shadow-sm flex-shrink-0">
+          <div className="w-20 h-20 rounded-2xl bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white flex items-center justify-center text-3xl font-extrabold shadow-sm flex-shrink-0">
             {formData.name.charAt(0).toUpperCase()}
           </div>
           <div className="text-center sm:text-left flex-1 min-w-0">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2">
               <h3 className="text-lg font-bold text-brand-text">{formData.name}</h3>
-              <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-black text-white dark:bg-zinc-800 dark:text-zinc-200 border border-zinc-800">
+              <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white">
                 PRO Member
               </span>
             </div>
@@ -169,7 +169,7 @@ export const Settings = () => {
             <button
               type="submit"
               disabled={isSaving}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-black hover:bg-zinc-800 dark:bg-zinc-800 dark:hover:bg-zinc-700 border border-zinc-800 active:scale-95 shadow-sm transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-black hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 border border-black dark:border-white active:scale-95 shadow-sm transition-all"
             >
               <Save className="w-4 h-4" />
               <span>{isSaving ? 'Saving...' : 'Save Profile Changes'}</span>
@@ -216,7 +216,7 @@ export const Settings = () => {
               }}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                 isMock
-                  ? 'bg-black text-white dark:bg-zinc-800 dark:text-white border border-zinc-800 shadow-sm'
+                  ? 'bg-black text-white dark:bg-white dark:text-black border border-black dark:border-white shadow-sm'
                   : 'bg-brand-card text-brand-muted hover:text-brand-text border border-brand-border'
               }`}
             >

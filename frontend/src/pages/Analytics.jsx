@@ -69,7 +69,7 @@ export const Analytics = () => {
                 onClick={() => setSelectedRange(range.value)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
                   selectedRange === range.value
-                    ? 'bg-black text-white dark:bg-zinc-800 dark:text-white shadow-sm border border-zinc-800'
+                    ? 'bg-black text-white dark:bg-white dark:text-black shadow-sm border border-black dark:border-white'
                     : 'text-brand-muted hover:text-brand-text hover:bg-brand-elevated'
                 }`}
               >
