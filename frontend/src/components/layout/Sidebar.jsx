@@ -15,6 +15,7 @@ import {
   ChevronRight,
   Wallet,
   Sparkles,
+  BrainCircuit,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
@@ -40,6 +41,7 @@ export const Sidebar = ({
 
   const navItems = [
     { name: 'Overview', path: '/dashboard', icon: LayoutDashboard },
+    { name: 'FinTrack AI', path: '/ai-assistant', icon: BrainCircuit, isAi: true },
     { name: 'Transactions', path: '/transactions', icon: ArrowLeftRight },
     { name: 'UPI & Payments', path: '/upi-payments', icon: Smartphone, comingSoon: true },
     { name: 'Bank Accounts', path: '/bank-accounts', icon: Landmark, comingSoon: true },
@@ -115,6 +117,11 @@ export const Sidebar = ({
               {!isCollapsed && (
                 <div className="flex items-center justify-between flex-1 min-w-0">
                   <span className="truncate">{item.name}</span>
+                  {item.isAi && (
+                    <span className="text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded-md bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 ml-2">
+                      Adaptive
+                    </span>
+                  )}
                   {item.comingSoon && (
                     <span className="text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded-md bg-zinc-200/70 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-400 border border-zinc-300 dark:border-zinc-700/60 ml-2">
                       Soon

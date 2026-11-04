@@ -20,6 +20,7 @@ import Budgets from './pages/Budgets';
 import Analytics from './pages/Analytics';
 import Notifications from './pages/Notifications';
 import Settings from './pages/Settings';
+import AIAssistant from './pages/AIAssistant';
 import NotFound from './pages/NotFound';
 
 /**
@@ -81,6 +82,7 @@ export const App = () => {
                   }
                 >
                   <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/ai-assistant" element={<AIAssistant />} />
                   <Route path="/transactions" element={<Transactions />} />
                   <Route path="/upi-payments" element={<UPIPayments />} />
                   <Route path="/bank-accounts" element={<BankAccounts />} />

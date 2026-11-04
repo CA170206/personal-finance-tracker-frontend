@@ -4,6 +4,7 @@ import {
   Wallet,
   ArrowRight,
   TrendingUp,
+  TrendingDown,
   PieChart,
   BarChart3,
   ShieldCheck,
@@ -18,6 +19,16 @@ import {
   FileSpreadsheet,
   Sliders,
   ChevronRight,
+  BrainCircuit,
+  Bot,
+  User,
+  Calendar,
+  LineChart,
+  ShieldAlert,
+  Layers,
+  XCircle,
+  Zap,
+  Check,
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
@@ -26,6 +37,103 @@ export const Landing = () => {
   const { toggleTheme, isDark } = useTheme();
   const { isAuthenticated } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeScenario, setActiveScenario] = useState('spending');
+
+  const aiCapabilities = [
+    {
+      icon: LineChart,
+      title: 'Intelligent Spending Analysis',
+      description: 'AI analyzes recorded transactions and identifies spending patterns.',
+      tag: 'Analysis',
+    },
+    {
+      icon: TrendingDown,
+      title: 'Personalized Saving Recommendations',
+      description: 'Discover unnecessary expenses and opportunities to save based on your income and spending habits.',
+      tag: 'Savings',
+    },
+    {
+      icon: BrainCircuit,
+      title: 'Financial Memory',
+      description: 'Ask questions about previous transactions, monthly spending, income, and financial history.',
+      tag: 'Memory',
+    },
+    {
+      icon: Sliders,
+      title: 'Smart Budget Monitoring',
+      description: 'Receive personalized warnings when spending approaches or exceeds budget limits.',
+      tag: 'Budgets',
+    },
+    {
+      icon: ShieldAlert,
+      title: 'Unusual Spending Detection',
+      description: 'Identify unexpected expenses and changes in normal spending patterns.',
+      tag: 'Anomalies',
+    },
+    {
+      icon: Calendar,
+      title: 'Upcoming Bill Awareness',
+      description: 'Get reminders and insights about recorded upcoming bills.',
+      tag: 'Bills',
+    },
+    {
+      icon: BarChart3,
+      title: 'Monthly Financial Insights',
+      description: 'Understand where your money goes and how your financial habits change over time.',
+      tag: 'Insights',
+    },
+    {
+      icon: Bot,
+      title: 'Conversational Financial Assistance',
+      description: 'Ask questions naturally and receive answers based on your actual FinnTrack financial records.',
+      tag: 'Natural Language',
+    },
+    {
+      icon: Sparkles,
+      title: 'Adaptive Intelligence',
+      description: 'AI recommendations become more personalized using user feedback and financial history.',
+      tag: 'Adaptive',
+    },
+  ];
+
+  const sampleScenarios = {
+    spending: {
+      title: 'Spending Breakdown Inquiry',
+      userQuestion: 'Where did most of my money go this month?',
+      aiAnswer:
+        'Based on your recorded transactions, your highest spending category this month is Food. You have spent ₹4,500, which is 22% higher than last month. Reducing food expenses by ₹1,000 could help improve your monthly savings.',
+      insightType: 'category',
+      insightCategory: 'Food & Dining',
+      insightAmount: '₹4,500',
+      insightDelta: '+22% vs last month',
+      insightSuggestion: 'Target ₹3,500 monthly limit to save ₹1,000',
+      followUps: ['Show food transactions', 'Create a ₹3,500 food budget', 'Compare with last month'],
+    },
+    affordability: {
+      title: 'Purchase Affordability Assessment',
+      userQuestion: 'Can I afford a ₹12,000 smartwatch purchase?',
+      aiAnswer:
+        'Affordability Assessment: Easily Affordable. Your recorded balance is ₹85,000. After reserving ₹3,400 for your upcoming Tata Power electricity bill and estimating remaining living expenses, you maintain a healthy surplus buffer of ₹55,600.',
+      insightType: 'affordability',
+      insightScore: '95/100',
+      insightStatus: 'Affordable',
+      insightBuffer: '₹55,600',
+      insightBills: '₹3,400 reserved for bills',
+      followUps: ['How will this affect savings?', 'Show pending bills this month', 'What is my daily burn rate?'],
+    },
+    action: {
+      title: 'Guarded Action Proposal',
+      userQuestion: 'Set a monthly food budget of ₹6,000',
+      aiAnswer:
+        'I have prepared a proposed budget update for you: Set monthly Food budget limit to ₹6,000. To ensure security, please confirm below to execute this action in your database.',
+      insightType: 'proposal',
+      proposalAction: 'Create / Update Category Budget',
+      proposalCategory: 'Food',
+      proposalAmount: '₹6,000 / month',
+      proposalStatus: 'Pending Confirmation',
+      followUps: ['Show all current budgets', 'Show food spending this month', 'What is my overall budget?'],
+    },
+  };
 
   const features = [
     {
@@ -139,7 +247,7 @@ export const Landing = () => {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-600 dark:text-zinc-400">
+          <nav className="hidden md:flex items-center gap-7 text-sm font-medium text-zinc-600 dark:text-zinc-400">
             <button
               onClick={() => scrollToSection('hero')}
               className="hover:text-black dark:hover:text-white transition-colors"
@@ -147,22 +255,31 @@ export const Landing = () => {
               Home
             </button>
             <button
+              onClick={() => scrollToSection('ai-features')}
+              className="hover:text-black dark:hover:text-white transition-colors flex items-center gap-1.5"
+            >
+              <span>AI Assistant</span>
+              <span className="text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.2 rounded-full bg-black text-white dark:bg-white dark:text-black">
+                AI
+              </span>
+            </button>
+            <button
+              onClick={() => scrollToSection('ai-preview')}
+              className="hover:text-black dark:hover:text-white transition-colors"
+            >
+              Interactive Preview
+            </button>
+            <button
+              onClick={() => scrollToSection('ai-advantage')}
+              className="hover:text-black dark:hover:text-white transition-colors"
+            >
+              AI Advantage
+            </button>
+            <button
               onClick={() => scrollToSection('features')}
               className="hover:text-black dark:hover:text-white transition-colors"
             >
-              Features
-            </button>
-            <button
-              onClick={() => scrollToSection('how-it-works')}
-              className="hover:text-black dark:hover:text-white transition-colors"
-            >
-              How It Works
-            </button>
-            <button
-              onClick={() => scrollToSection('benefits')}
-              className="hover:text-black dark:hover:text-white transition-colors"
-            >
-              Benefits
+              Finance Core
             </button>
           </nav>
 
@@ -236,22 +353,31 @@ export const Landing = () => {
                 Home
               </button>
               <button
+                onClick={() => scrollToSection('ai-features')}
+                className="text-left px-3 py-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:bg-brand-elevated flex items-center justify-between"
+              >
+                <span>AI Assistant Features</span>
+                <span className="text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded-full bg-black text-white dark:bg-white dark:text-black">
+                  AI
+                </span>
+              </button>
+              <button
+                onClick={() => scrollToSection('ai-preview')}
+                className="text-left px-3 py-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:bg-brand-elevated"
+              >
+                Interactive Preview
+              </button>
+              <button
+                onClick={() => scrollToSection('ai-advantage')}
+                className="text-left px-3 py-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:bg-brand-elevated"
+              >
+                AI Advantage
+              </button>
+              <button
                 onClick={() => scrollToSection('features')}
                 className="text-left px-3 py-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:bg-brand-elevated"
               >
-                Features
-              </button>
-              <button
-                onClick={() => scrollToSection('how-it-works')}
-                className="text-left px-3 py-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:bg-brand-elevated"
-              >
-                How It Works
-              </button>
-              <button
-                onClick={() => scrollToSection('benefits')}
-                className="text-left px-3 py-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-white hover:bg-brand-elevated"
-              >
-                Benefits
+                Finance Core
               </button>
             </div>
             <div className="pt-3 border-t border-brand-border/60 flex flex-col gap-2">
@@ -297,23 +423,22 @@ export const Landing = () => {
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-card border border-brand-border shadow-sm mb-6 animate-fadeIn">
               <span className="flex h-2 w-2 rounded-full bg-black dark:bg-white animate-pulse" />
               <span className="text-xs font-semibold text-black dark:text-white">
-                FinTrack is Live
+                FinTrack AI is Live
               </span>
-              <span className="text-zinc-600 dark:text-zinc-400 font-semibold text-xs">• INR (₹) Financial Suite</span>
+              <span className="text-zinc-600 dark:text-zinc-400 font-semibold text-xs">• Adaptive Financial Intelligence</span>
             </div>
 
             {/* Headline */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-black dark:text-white tracking-tight leading-[1.15] mb-6">
-              Take Control of Your Money.{' '}
+              Your Money. Your Goals.{' '}
               <span className="block mt-2 text-black dark:text-white">
-                Build a Better Financial Future.
+                Your AI Financial Assistant.
               </span>
             </h1>
 
             {/* Supporting Text */}
             <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-8">
-              Track your income, manage expenses, monitor budgets and understand your spending habits
-              — all in one simple, powerful financial dashboard.
+              Take control of your finances with intelligent AI that understands your spending habits, analyzes transactions, identifies saving opportunities, and helps you make smarter financial decisions.
             </p>
 
             {/* CTA Buttons */}
@@ -326,10 +451,10 @@ export const Landing = () => {
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <button
-                onClick={() => scrollToSection('features')}
+                onClick={() => scrollToSection('ai-features')}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold text-base text-black dark:text-white bg-brand-card hover:bg-brand-elevated border border-brand-border transition-colors"
               >
-                <span>Explore Features</span>
+                <span>Explore AI Features</span>
                 <ChevronRight className="w-4 h-4 text-black dark:text-white" />
               </button>
             </div>
@@ -337,10 +462,10 @@ export const Landing = () => {
             {/* Small reassurance stats */}
             <div className="mt-10 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs text-zinc-600 dark:text-zinc-400">
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-black dark:text-white" /> No credit card required
+                <CheckCircle2 className="w-4 h-4 text-black dark:text-white" /> Deterministic calculations
               </span>
               <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-black dark:text-white" /> Indian Rupee (₹) native
+                <CheckCircle2 className="w-4 h-4 text-black dark:text-white" /> Action confirmation guardrail
               </span>
               <span className="flex items-center gap-1.5">
                 <CheckCircle2 className="w-4 h-4 text-black dark:text-white" /> 100% private & secure
@@ -349,9 +474,454 @@ export const Landing = () => {
           </div>
 
           {/* ===================================================
-              DASHBOARD PREVIEW (MARKETING ILLUSTRATION)
+              AI ASSISTANT HERO PREVIEW (MARKETING ILLUSTRATION)
           =================================================== */}
           <div className="mt-14 sm:mt-18 relative">
+            {/* Ambient Background Glow & Depth Shades */}
+            <div className="absolute -inset-4 sm:-inset-6 bg-gradient-to-r from-zinc-500/10 via-zinc-400/10 to-zinc-500/10 rounded-3xl blur-3xl opacity-60 dark:opacity-40 pointer-events-none" />
+
+            {/* Main AI Chat Mockup Container */}
+            <div className="relative mx-auto max-w-4xl rounded-3xl bg-slate-950 text-white p-3 sm:p-5 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7),0_0_50px_rgba(255,255,255,0.05)] ring-1 ring-white/10 overflow-hidden group">
+              {/* Top Mac-style bar */}
+              <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-white/[0.08] text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full bg-rose-500 inline-block shadow-[0_0_6px_rgba(244,63,94,0.6)]" />
+                  <span className="w-3 h-3 rounded-full bg-amber-500 inline-block shadow-[0_0_6px_rgba(245,158,11,0.6)]" />
+                  <span className="w-3 h-3 rounded-full bg-emerald-500 inline-block shadow-[0_0_6px_rgba(16,185,129,0.6)]" />
+                  <span className="ml-2 font-mono text-[11px] text-slate-400 hidden sm:inline">
+                    https://fintrack.app/ai-assistant
+                  </span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-slate-200 bg-white/10 px-3 py-1 rounded-full border border-white/15">
+                  <Sparkles className="w-3 h-3 text-white" /> Product Preview • Demonstration with Sample Data
+                </div>
+              </div>
+
+              {/* Chat Interior */}
+              <div className="bg-[#0B0F19] rounded-2xl p-4 sm:p-6 space-y-4 shadow-inner">
+                {/* Assistant Context Bar */}
+                <div className="flex items-center justify-between pb-3 border-b border-white/[0.08] text-xs">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center text-white font-bold">
+                      <Bot className="w-4 h-4 text-white" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-white text-xs">FinTrack AI Assistant</span>
+                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-slate-300 border border-white/15 font-semibold">
+                          Adaptive Engine
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-400">Context: 42 Transactions • 3 Budgets • 2 Pending Bills</p>
+                    </div>
+                  </div>
+                  <span className="hidden sm:inline-flex text-[11px] text-slate-400 items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse" /> Memory Synced
+                  </span>
+                </div>
+
+                {/* Message 1: User Prompt */}
+                <div className="flex justify-end">
+                  <div className="max-w-md bg-white/15 border border-white/15 rounded-2xl rounded-tr-sm px-4 py-3 text-white shadow-sm">
+                    <p className="text-xs sm:text-sm font-medium">Where did most of my money go this month?</p>
+                    <span className="text-[10px] text-slate-400 block text-right mt-1">Today, 10:14 AM</span>
+                  </div>
+                </div>
+
+                {/* Message 2: AI Response */}
+                <div className="flex gap-3 items-start max-w-2xl">
+                  <div className="w-7 h-7 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center text-white flex-shrink-0 mt-1">
+                    <Bot className="w-3.5 h-3.5" />
+                  </div>
+                  <div className="space-y-3 flex-1">
+                    <div className="bg-[#141B2D] border border-white/[0.08] rounded-2xl rounded-tl-sm p-4 text-slate-200 text-xs sm:text-sm leading-relaxed shadow-sm">
+                      <p>
+                        Based on your recorded transactions, your highest spending category this month is{' '}
+                        <strong className="text-white font-semibold">Food</strong>. You have spent{' '}
+                        <strong className="text-white font-bold">₹4,500</strong>, which is{' '}
+                        <span className="text-rose-400 font-semibold inline-flex items-center gap-0.5">
+                          <ArrowUpRight className="w-3.5 h-3.5 inline" /> 22% higher
+                        </span>{' '}
+                        than last month. Reducing food expenses by ₹1,000 could help improve your monthly savings.
+                      </p>
+                    </div>
+
+                    {/* Interactive Insight Card */}
+                    <div className="p-3.5 rounded-xl bg-[#141B2D] border border-white/[0.08] text-xs space-y-2.5">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Spending Analysis</span>
+                          <span className="text-[10px] font-semibold text-rose-400 bg-rose-500/15 px-2 py-0.5 rounded-full border border-rose-500/30">
+                            +22% vs last month
+                          </span>
+                        </div>
+                        <span className="text-white font-extrabold text-sm">₹4,500</span>
+                      </div>
+                      <div className="space-y-1">
+                        <div className="flex justify-between text-[11px] text-slate-400">
+                          <span>Budget consumed (₹4,500 / ₹5,000)</span>
+                          <span className="font-semibold text-white">90%</span>
+                        </div>
+                        <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                          <div className="h-full bg-rose-400 rounded-full" style={{ width: '90%' }} />
+                        </div>
+                      </div>
+                      <p className="text-[11px] text-slate-300">
+                        💡 Recommendation: Setting a ₹3,500 monthly limit would yield ~₹1,000 in monthly savings.
+                      </p>
+                    </div>
+
+                    {/* Context Prompt Pills */}
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      <span className="text-[11px] px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-300 font-medium">
+                        Show food transactions
+                      </span>
+                      <span className="text-[11px] px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-300 font-medium">
+                        Create a ₹3,500 food budget
+                      </span>
+                      <span className="text-[11px] px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-300 font-medium">
+                        Compare with last month
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Input Simulation */}
+                <div className="pt-2 flex items-center gap-2">
+                  <div className="flex-1 bg-[#141B2D] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-slate-400 flex items-center justify-between">
+                    <span>Ask about your expenses, budgets, bills, or savings...</span>
+                    <Sparkles className="w-4 h-4 text-slate-400" />
+                  </div>
+                  <div className="w-10 h-10 rounded-xl bg-white text-black flex items-center justify-center font-bold shadow-sm">
+                    <ArrowUpRight className="w-4 h-4" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================
+          2. DEDICATED AI FEATURES SECTION
+      =================================================== */}
+      <section id="ai-features" className="py-20 sm:py-28 bg-brand-sidebar/40 border-y border-brand-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="text-xs uppercase font-extrabold tracking-widest text-black dark:text-white px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 inline-block mb-3">
+              FinTrack AI Engine
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-black dark:text-white tracking-tight">
+              Meet Your Personal AI Financial Assistant
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mt-3">
+              A financial brain that continuously understands your behavior, remembers context across sessions, and delivers deterministic, data-grounded insights.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {aiCapabilities.map((cap, idx) => {
+              const Icon = cap.icon;
+              return (
+                <div
+                  key={idx}
+                  className="bg-brand-card hover:bg-brand-cardHover border border-brand-border rounded-2xl p-6 transition-all duration-300 shadow-card hover:shadow-elevated hover:-translate-y-1 flex flex-col justify-between group"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-12 h-12 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-black dark:text-white flex items-center justify-center group-hover:scale-105 transition-transform">
+                        <Icon className="w-6 h-6 text-black dark:text-white" />
+                      </div>
+                      <span className="text-[10px] uppercase font-bold tracking-wider px-2.5 py-0.5 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 text-black dark:text-white">
+                        {cap.tag}
+                      </span>
+                    </div>
+                    <h4 className="text-base sm:text-lg font-bold text-black dark:text-white tracking-tight mb-2">
+                      {cap.title}
+                    </h4>
+                    <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                      {cap.description}
+                    </p>
+                  </div>
+                  <div className="pt-4 mt-4 border-t border-brand-border/40 flex items-center text-xs font-semibold text-zinc-600 dark:text-zinc-400 group-hover:text-black dark:group-hover:text-white transition-colors">
+                    <span>Explore capability</span>
+                    <ChevronRight className="w-3.5 h-3.5 ml-1 text-black dark:text-white group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================
+          3. INTERACTIVE AI PREVIEW SECTION
+      =================================================== */}
+      <section id="ai-preview" className="py-20 sm:py-28 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-xs uppercase font-extrabold tracking-widest text-black dark:text-white px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 inline-block mb-3">
+              Interactive Demo
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-black dark:text-white tracking-tight">
+              See FinTrack AI in Action
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mt-3">
+              Select a financial scenario below to preview how the assistant synthesizes records, computes comparisons, and safeguards actions.
+            </p>
+          </div>
+
+          {/* Scenario Selector Pills */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10">
+            {Object.entries(sampleScenarios).map(([key, item]) => {
+              const active = activeScenario === key;
+              return (
+                <button
+                  key={key}
+                  onClick={() => setActiveScenario(key)}
+                  className={`px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition-all border ${
+                    active
+                      ? 'bg-black text-white dark:bg-white dark:text-black border-black dark:border-white shadow-md'
+                      : 'bg-brand-card text-zinc-600 dark:text-zinc-400 border-brand-border hover:bg-brand-elevated'
+                  }`}
+                >
+                  {item.title}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Chat Demonstration Window */}
+          <div className="max-w-4xl mx-auto rounded-3xl bg-slate-950 text-white p-4 sm:p-6 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.7)] ring-1 ring-white/10">
+            <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-white/[0.08] text-xs">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block" />
+                <span className="ml-2 font-mono text-[11px] text-slate-400">
+                  fintrack://ai-preview/{activeScenario}
+                </span>
+              </div>
+              <span className="text-[10px] text-slate-400 font-medium">
+                Demonstration with Sample Data
+              </span>
+            </div>
+
+            <div className="space-y-4">
+              {/* User Bubble */}
+              <div className="flex justify-end">
+                <div className="max-w-md bg-white/15 border border-white/15 rounded-2xl rounded-tr-sm px-4 py-3 text-white shadow-sm">
+                  <p className="text-xs sm:text-sm font-medium">
+                    {sampleScenarios[activeScenario].userQuestion}
+                  </p>
+                </div>
+              </div>
+
+              {/* AI Bubble */}
+              <div className="flex gap-3 items-start">
+                <div className="w-7 h-7 rounded-lg bg-white/10 border border-white/15 flex items-center justify-center text-white flex-shrink-0 mt-1">
+                  <Bot className="w-3.5 h-3.5" />
+                </div>
+                <div className="space-y-3 flex-1">
+                  <div className="bg-[#141B2D] border border-white/[0.08] rounded-2xl rounded-tl-sm p-4 text-slate-200 text-xs sm:text-sm leading-relaxed">
+                    <p>{sampleScenarios[activeScenario].aiAnswer}</p>
+                  </div>
+
+                  {/* Dynamic Insight Card based on activeScenario */}
+                  {activeScenario === 'spending' && (
+                    <div className="p-4 rounded-xl bg-[#141B2D] border border-white/[0.08] text-xs space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <span className="text-[10px] uppercase font-bold text-slate-400 block">Category Leader</span>
+                          <span className="font-bold text-white text-base">Food & Dining</span>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-white font-extrabold text-base">₹4,500</span>
+                          <span className="text-[10px] text-rose-400 font-semibold block">+22% vs last month</span>
+                        </div>
+                      </div>
+                      <div className="p-2.5 rounded-lg bg-black/30 border border-white/5 text-[11px] text-slate-300">
+                        Target recommendation: Capping food expenses to ₹3,500 would preserve an extra ₹1,000 per month.
+                      </div>
+                    </div>
+                  )}
+
+                  {activeScenario === 'affordability' && (
+                    <div className="p-4 rounded-xl bg-[#141B2D] border border-white/[0.08] text-xs space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <span className="text-[10px] uppercase font-bold text-slate-400 block">Affordability Index</span>
+                          <span className="font-bold text-emerald-400 text-base">95 / 100 • Safe Purchase</span>
+                        </div>
+                        <div className="text-right">
+                          <span className="text-[10px] uppercase font-bold text-slate-400 block">Surplus Buffer</span>
+                          <span className="text-white font-extrabold text-base">₹55,600</span>
+                        </div>
+                      </div>
+                      <div className="p-2.5 rounded-lg bg-black/30 border border-white/5 text-[11px] text-slate-300">
+                        ⚡ Scheduled commitments protected: ₹3,400 reserved for Tata Power bill due in 4 days.
+                      </div>
+                    </div>
+                  )}
+
+                  {activeScenario === 'action' && (
+                    <div className="p-4 rounded-xl bg-[#141B2D] border border-white/[0.08] text-xs space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            Guarded Action
+                          </span>
+                          <span className="font-bold text-white text-xs">Set Category Budget</span>
+                        </div>
+                        <span className="text-white font-extrabold text-sm">₹6,000 / mo</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300">
+                        The assistant never modifies your database automatically. You must confirm each proposed action.
+                      </p>
+                      <div className="flex items-center gap-2 pt-1">
+                        <button disabled className="px-3.5 py-1.5 rounded-lg bg-white/20 text-slate-400 text-xs font-semibold cursor-not-allowed">
+                          Confirm & Execute
+                        </button>
+                        <button disabled className="px-3.5 py-1.5 rounded-lg bg-transparent text-slate-500 text-xs font-medium cursor-not-allowed">
+                          Reject
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Suggested Follow-ups */}
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {sampleScenarios[activeScenario].followUps.map((fu, fIdx) => (
+                      <span
+                        key={fIdx}
+                        className="text-[11px] px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-300 font-medium"
+                      >
+                        {fu}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================
+          4. AI-POWERED ADVANTAGE SECTION
+      =================================================== */}
+      <section id="ai-advantage" className="py-20 sm:py-28 bg-brand-sidebar/40 border-y border-brand-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="text-xs uppercase font-extrabold tracking-widest text-black dark:text-white px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 inline-block mb-3">
+              The AI Advantage
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-black dark:text-white tracking-tight">
+              Traditional Expense Trackers vs. FinTrack PRO
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mt-3">
+              Why manual spreadsheet logging is outdated and how intelligent financial assistants transform money management.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Traditional Card */}
+            <div className="bg-brand-card border border-brand-border rounded-3xl p-7 sm:p-9 shadow-card">
+              <div className="flex items-center justify-between pb-4 mb-6 border-b border-brand-border">
+                <div>
+                  <h4 className="text-lg font-bold text-black dark:text-white">Traditional Trackers</h4>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">Passive Logging & Static Spreadsheets</p>
+                </div>
+                <span className="w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center text-zinc-500">
+                  <XCircle className="w-4 h-4 text-zinc-500" />
+                </span>
+              </div>
+              <ul className="space-y-4 text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+                <li className="flex items-start gap-3">
+                  <XCircle className="w-4 h-4 text-zinc-400 flex-shrink-0 mt-0.5" />
+                  <span>Only record numbers after manual entry with zero smart feedback.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <XCircle className="w-4 h-4 text-zinc-400 flex-shrink-0 mt-0.5" />
+                  <span>Display raw charts and force you to calculate trends and percentages yourself.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <XCircle className="w-4 h-4 text-zinc-400 flex-shrink-0 mt-0.5" />
+                  <span>Treat each month as an isolated bucket with no memory of prior habits.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <XCircle className="w-4 h-4 text-zinc-400 flex-shrink-0 mt-0.5" />
+                  <span>Silent when you are about to overspend or face an unbudgeted utility bill.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <XCircle className="w-4 h-4 text-zinc-400 flex-shrink-0 mt-0.5" />
+                  <span>Generic, one-size-fits-all tips without understanding your personal lifestyle.</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* FinTrack AI Card */}
+            <div className="bg-brand-card border-2 border-black dark:border-white rounded-3xl p-7 sm:p-9 shadow-elevated relative overflow-hidden">
+              <div className="flex items-center justify-between pb-4 mb-6 border-b border-brand-border">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h4 className="text-lg font-bold text-black dark:text-white">FinTrack PRO</h4>
+                    <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-black text-white dark:bg-white dark:text-black">
+                      AI-Powered
+                    </span>
+                  </div>
+                  <p className="text-xs text-zinc-600 dark:text-zinc-400">Adaptive Intelligence & Safe Execution</p>
+                </div>
+                <span className="w-8 h-8 rounded-full bg-black text-white dark:bg-white dark:text-black flex items-center justify-center">
+                  <Sparkles className="w-4 h-4" />
+                </span>
+              </div>
+              <ul className="space-y-4 text-xs sm:text-sm text-black dark:text-white font-medium">
+                <li className="flex items-start gap-3">
+                  <Check className="w-4 h-4 text-black dark:text-white flex-shrink-0 mt-0.5" />
+                  <span>Continuously analyzes financial activity across your transactions and bank records.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-4 h-4 text-black dark:text-white flex-shrink-0 mt-0.5" />
+                  <span>Explains spending patterns in clear natural language with exact percentage deltas.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-4 h-4 text-black dark:text-white flex-shrink-0 mt-0.5" />
+                  <span>Long-term financial memory of your preferences, goals, and recurring commitments.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-4 h-4 text-black dark:text-white flex-shrink-0 mt-0.5" />
+                  <span>Proactive budget warnings and unusual spending anomaly detection.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Check className="w-4 h-4 text-black dark:text-white flex-shrink-0 mt-0.5" />
+                  <span>Safe, guarded action proposals that require your explicit confirmation before changing data.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===================================================
+          5. CORE FINANCIAL DASHBOARD & TOOLKIT
+      =================================================== */}
+      <section id="features" className="py-20 sm:py-28 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <span className="text-xs uppercase font-extrabold tracking-widest text-black dark:text-white px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900 inline-block mb-3">
+              Core Toolkit & Dashboard
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-black dark:text-white tracking-tight">
+              Designed for modern financial clarity
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mt-3">
+              Everything you need to track money, build savings, and make smart financial decisions without complexity.
+            </p>
+          </div>
+
+          {/* DASHBOARD PREVIEW (MARKETING ILLUSTRATION) */}
+          <div className="mb-16 relative">
             {/* Ambient Background Glow & Depth Shades */}
             <div className="absolute -inset-4 sm:-inset-6 bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-purple-500/20 rounded-3xl blur-3xl opacity-60 dark:opacity-40 pointer-events-none" />
 
@@ -480,25 +1050,6 @@ export const Landing = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ===================================================
-          3. FEATURES SECTION
-      =================================================== */}
-      <section id="features" className="py-20 bg-brand-sidebar/40 border-y border-brand-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-xs uppercase font-extrabold tracking-widest text-black dark:text-white mb-2">
-              Comprehensive Toolkit
-            </h2>
-            <h3 className="text-2xl sm:text-4xl font-extrabold text-black dark:text-white tracking-tight">
-              Designed for modern financial clarity
-            </h3>
-            <p className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 mt-3">
-              Everything you need to track money, build savings, and make smart financial decisions without complexity.
-            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
@@ -730,18 +1281,28 @@ export const Landing = () => {
                   </button>
                 </li>
                 <li>
+                  <button onClick={() => scrollToSection('ai-features')} className="hover:text-black dark:hover:text-white transition-colors">
+                    AI Features
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => scrollToSection('ai-preview')} className="hover:text-black dark:hover:text-white transition-colors">
+                    Interactive Demo
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => scrollToSection('ai-advantage')} className="hover:text-black dark:hover:text-white transition-colors">
+                    AI Advantage
+                  </button>
+                </li>
+                <li>
                   <button onClick={() => scrollToSection('features')} className="hover:text-black dark:hover:text-white transition-colors">
-                    Features
+                    Core Toolkit
                   </button>
                 </li>
                 <li>
                   <button onClick={() => scrollToSection('how-it-works')} className="hover:text-black dark:hover:text-white transition-colors">
                     How It Works
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => scrollToSection('benefits')} className="hover:text-black dark:hover:text-white transition-colors">
-                    Benefits
                   </button>
                 </li>
               </ul>
